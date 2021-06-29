@@ -73,7 +73,7 @@ public class PaintPane extends BorderPane {
 			}
 			else if(circleButton.isSelected()) {
 				double circleRadius = Math.abs(endPoint.getX() - startPoint.getX());
-				newFigure = new Circle(startPoint, circleRadius);
+				newFigure = new Circle(startPoint, new Point(circleRadius, circleRadius));
 			} else {
 				return ;
 			}
@@ -126,14 +126,14 @@ public class PaintPane extends BorderPane {
 				double diffY = (eventPoint.getY() - startPoint.getY()) / 100;
 				if(selectedFigure instanceof Rectangle) {
 					Rectangle rectangle = (Rectangle) selectedFigure;
-					rectangle.getTopLeft().incrementX(diffX);
-					rectangle.getBottomRight().incrementX(diffX);
-					rectangle.getTopLeft().incrementY(diffY);
-					rectangle.getBottomRight().incrementY(diffY);
+					rectangle.getTopLeft().setX(diffX);
+					rectangle.getBottomRight().setX(diffX);
+					rectangle.getTopLeft().setY(diffY);
+					rectangle.getBottomRight().setY(diffY);
 				} else if(selectedFigure instanceof Circle) {
 					Circle circle = (Circle) selectedFigure;
-					circle.getCenterPoint().incrementX(diffX);
-					circle.getCenterPoint().incrementY(diffY);
+					circle.getCenterPoint().setX(diffX);
+					circle.getCenterPoint().setY(diffY);
 				}
 				redrawCanvas();
 			}

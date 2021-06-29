@@ -17,14 +17,18 @@ public class Point {
         return y;
     }
 
-    public double incrementX(double amount) {
-        return x += amount;
+    public void setX(double delta) {
+        movePoint(delta, 0);
     }
 
-    public double incrementY(double amount) {
-        return y += amount;
+    public void setY(double delta) {
+        movePoint(0, delta);
     }
 
+    public void movePoint(double deltaX, double deltaY) {
+        this.x += deltaX;
+        this.y += deltaY;
+    }
 
     @Override
     public String toString() {
