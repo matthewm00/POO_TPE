@@ -7,7 +7,7 @@ public class Square extends Rectangle{
     }
 
     @Override
-    public String toString() {
+    public String source() {
         return String.format("Cuadrado [ %s , %s ]", getTopLeft(), getBottomRight());
     }
 }

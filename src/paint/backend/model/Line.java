@@ -26,4 +26,9 @@ public class Line extends Figure{
         return Arrays.asList(startPoint, endPoint);
     }
 
+    @Override
+    public String source() {
+        return String.format("Linea [ De: %s , Hasta: %s ]", startPoint, endPoint);
+    }
+
 }

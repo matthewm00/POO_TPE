@@ -21,7 +21,7 @@ public class Circle extends Ellipse{
     }
 
     @Override
-    public String toString() {
+    public String source() {
         return String.format("Círculo [Centro: %s, Radio: %.2f]", centerPoint, radiusPoint.getX());
     }
 }
