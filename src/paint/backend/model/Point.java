@@ -2,7 +2,7 @@ package paint.backend.model;
 
 public class Point {
 
-    public double x, y;
+    private double x, y;
 
     public Point(double x, double y) {
         this.x = x;
@@ -16,6 +16,15 @@ public class Point {
     public double getY() {
         return y;
     }
+
+    public double incrementX(double amount) {
+        return x += amount;
+    }
+
+    public double incrementY(double amount) {
+        return y += amount;
+    }
+
 
     @Override
     public String toString() {

@@ -2,8 +2,8 @@ package paint.backend.model;
 
 public class Circle extends Figure {
 
-    protected final Point centerPoint;
-    protected final double radius;
+    private Point centerPoint;
+    private double radius;
 
     public Circle(Point centerPoint, double radius) {
         this.centerPoint = centerPoint;
