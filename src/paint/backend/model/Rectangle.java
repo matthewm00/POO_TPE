@@ -1,5 +1,9 @@
 package paint.backend.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Rectangle extends Figure {
 
     private final Point topLeft, bottomRight;
@@ -20,6 +24,11 @@ public class Rectangle extends Figure {
     @Override
     public String toString() {
         return String.format("Rectángulo [ %s , %s ]", topLeft, bottomRight);
+    }
+
+    @Override
+    public List<Point> getPoints() {
+        return Arrays.asList(topLeft, bottomRight);
     }
 
 }
