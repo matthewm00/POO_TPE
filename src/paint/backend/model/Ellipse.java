@@ -15,7 +15,7 @@ public class Ellipse extends Figure{
     }
 
     @Override
-    public String toString() {
+    public String source() {
         return String.format("Elipse [Centro: %s]", centerPoint);
     }
 
@@ -23,4 +23,5 @@ public class Ellipse extends Figure{
     public List<Point> getPoints() {
         return Arrays.asList(centerPoint, bottomRight, topLeft);
     }
+
 }
