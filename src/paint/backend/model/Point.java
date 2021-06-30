@@ -17,6 +17,14 @@ public class Point {
         return y;
     }
 
+    public double differenceX(Point point){
+        return Math.abs(getX() - point.getX());
+    }
+
+    public double differenceY(Point point){
+        return Math.abs(getY() - point.getY());
+    }
+
     public void setX(double delta) {
         movePoint(delta, 0);
     }
