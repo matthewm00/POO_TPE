@@ -1,6 +1,7 @@
 package paint.frontend;
 
 import paint.backend.CanvasState;
+import paint.backend.button.FigureButton;
 import paint.backend.model.Circle;
 import paint.backend.model.Figure;
 import paint.backend.model.Point;
@@ -30,6 +31,9 @@ public class PaintPane extends BorderPane {
 	ToggleButton selectionButton = new ToggleButton("Seleccionar");
 	ToggleButton rectangleButton = new ToggleButton("Rectángulo");
 	ToggleButton circleButton = new ToggleButton("Círculo");
+	ToggleButton ellipseButton = new ToggleButton("Elipse");
+	ToggleButton squareButton = new ToggleButton("Cuadrado");
+	ToggleButton lineButton = new ToggleButton("Linea");
 
 	// Dibujar una figura
 	Point startPoint;
@@ -40,10 +44,12 @@ public class PaintPane extends BorderPane {
 	// StatusBar
 	StatusPane statusPane;
 
+	FigureButton selectedButton;
+
 	public PaintPane(CanvasState canvasState, StatusPane statusPane) {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
-		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton};
+		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, ellipseButton, squareButton, lineButton};
 		ToggleGroup tools = new ToggleGroup();
 		for (ToggleButton tool : toolsArr) {
 			tool.setMinWidth(90);
@@ -65,6 +71,11 @@ public class PaintPane extends BorderPane {
 				return ;
 			}
 			Figure newFigure = null;
+			if (selectedButton != null) {
+				newFigure = selectedButton.createFigure(startPoint, endPoint);
+				if (newFigure != null)
+					canvasState.addFigure(newFigure);
+			}
 			if(rectangleButton.isSelected()) {
 				if(endPoint.getX() < startPoint.getX() || endPoint.getY() < startPoint.getY()) {
 					return ;
