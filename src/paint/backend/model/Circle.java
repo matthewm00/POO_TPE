@@ -2,14 +2,8 @@ package paint.backend.model;
 
 public class Circle extends Ellipse{
 
-//    private Point centerPoint;
-    //private double radius;
-//    private Point radiusPoint; //x , y
-
     public Circle(Point centerPoint, Point radiusPoint) {
         super(centerPoint, radiusPoint);
-//        this.centerPoint = centerPoint;
-//        this.radiusPoint = radiusPoint;
     }
 
     @Override
