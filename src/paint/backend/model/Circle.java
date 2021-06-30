@@ -1,9 +1,11 @@
 package paint.backend.model;
 
+import java.awt.*;
+
 public class Circle extends Ellipse{
 
-    public Circle(Point centerPoint, Point radiusPoint) {
-        super(centerPoint, radiusPoint);
+    public Circle(Point centerPoint, Point radiusPoint, Color innerColor, Color borderColor, double limitWidth) {
+        super(centerPoint, radiusPoint, innerColor, borderColor, limitWidth);
     }
 
     @Override
@@ -11,8 +13,8 @@ public class Circle extends Ellipse{
         double radius = centerPoint.distanceToPoint(radiusPoint);
         this.radiusX = radius;
         this.radiusY = radius;
-        this.topLeft = new Point(centerPoint.getX() - radiusX,centerPoint.getY() - radiusY);
-        this.bottomRight = new Point(centerPoint.getX() + radiusX,centerPoint.getY() + radiusY);
+        this.start = new Point(centerPoint.getX() - radiusX,centerPoint.getY() - radiusY);
+        this.end = new Point(centerPoint.getX() + radiusX,centerPoint.getY() + radiusY);
         this.centerPoint = centerPoint;
     }
 

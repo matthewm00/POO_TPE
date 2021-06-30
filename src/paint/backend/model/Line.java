@@ -1,38 +1,37 @@
 package paint.backend.model;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
 public class Line extends Figure{
 
-    private Point startPoint, endPoint;
+    public Line(Point startPoint, Point endPoint, Color borderColor, double limitWidth) {
+        super(startPoint, endPoint, borderColor, limitWidth);
 
-    public Line(Point startPoint, Point endPoint) {
-        this.startPoint = startPoint;
-        this.endPoint = endPoint;
     }
 
     public Point getStartPoint() {
-        return startPoint;
+        return start;
     }
 
     public Point getEndPoint() {
-        return endPoint;
+        return end;
     }
 
     @Override
     public boolean containsPoint(Point p) {
-        return Double.compare(startPoint.distanceToPoint(p) + p.distanceToPoint(endPoint), startPoint.distanceToPoint(endPoint)) == 1;
+        return Double.compare(start.distanceToPoint(p) + p.distanceToPoint(end), start.distanceToPoint(end)) == 1;
     }
 
     @Override
     public List<Point> getPoints(){
-        return Arrays.asList(startPoint, endPoint);
+        return Arrays.asList(start, end);
     }
 
     @Override
     public String source() {
-        return String.format("Linea [ De: %s , Hasta: %s ]", startPoint, endPoint);
+        return String.format("Linea [ De: %s , Hasta: %s ]", start, end);
     }
 
 }

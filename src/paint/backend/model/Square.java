@@ -1,15 +1,17 @@
 package paint.backend.model;
 
+import java.awt.*;
+
 public class Square extends Rectangle{
 
-    public Square(Point topLeft, Point rightPoint) {
-        super(topLeft, rightPoint);
+    public Square(Point topLeft, Point rightPoint, Color innerColor, Color borderColor, double limitWidth) {
+        super(topLeft, rightPoint, innerColor, borderColor, limitWidth);
     }
 
     @Override
     protected void init(Point topLeft, Point bottomRight) {
-        this.topLeft = topLeft;
-        this.bottomRight = new Point(bottomRight.getX(), topLeft.getY() + bottomRight.getX() - topLeft.getX());
+        this.start = topLeft;
+        this.end = new Point(bottomRight.getX(), topLeft.getY() + bottomRight.getX() - topLeft.getX());
     }
 
     @Override

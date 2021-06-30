@@ -1,5 +1,6 @@
 package paint.frontend;
 
+import javafx.scene.control.Button;
 import paint.backend.CanvasState;
 import paint.backend.button.*;
 import paint.backend.model.Circle;
@@ -29,11 +30,14 @@ public class PaintPane extends BorderPane {
 
 	// Botones Barra Izquierda
 	private ToggleButton selectionButton = new ToggleButton("Seleccionar");
+
 	private FigureButton rectangleButton = new RectangleButton("Rectángulo");
 	private FigureButton circleButton = new CircleButton("Círculo");
 	private FigureButton ellipseButton = new EllipseButton("Elipse");
 	private FigureButton squareButton = new SquareButton("Cuadrado");
 	private FigureButton lineButton = new LineButton("Linea");
+
+	private ToggleButton deleteButton = new ToggleButton("Borrar");
 
 	// Dibujar una figura
 	private Point startPoint;
@@ -50,34 +54,41 @@ public class PaintPane extends BorderPane {
 	public PaintPane(CanvasState canvasState, StatusPane statusPane) {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
-		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, ellipseButton, squareButton, lineButton};
+
+		deleteButton.setOnAction(event -> {
+
+		});
+
+		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, ellipseButton, squareButton, lineButton, deleteButton};
 		ToggleGroup tools = new ToggleGroup();
 		for (ToggleButton tool : toolsArr) {
 			tool.setMinWidth(90);
 			tool.setToggleGroup(tools);
 			tool.setCursor(Cursor.HAND);
 		}
+
 		VBox buttonsBox = new VBox(10);
 		buttonsBox.getChildren().addAll(toolsArr);
 		buttonsBox.setPadding(new Insets(5));
 		buttonsBox.setStyle("-fx-background-color: #999");
 		buttonsBox.setPrefWidth(100);
 		gc.setLineWidth(1);
+
+
 		canvas.setOnMousePressed(event -> {
 			startPoint = new Point(event.getX(), event.getY());
 		});
+
 		canvas.setOnMouseReleased(event -> {
 			Point endPoint = new Point(event.getX(), event.getY());
-			if(startPoint == null) {
-				return ;
-			}
+			if(startPoint == null) return ;
 			Figure newFigure = null;
-			if(!selectionButton.isSelected())
+			if(!selectionButton.isSelected()) { // boton de alguna figura
 				clickedButton = (FigureButton) tools.getSelectedToggle();
-			if (clickedButton != null) {
-				newFigure = clickedButton.createFigure(startPoint, endPoint);
-				if (newFigure != null)
-					canvasState.addFigure(newFigure);
+				if (clickedButton != null) {
+//					newFigure = clickedButton.createFigure(startPoint, endPoint);// Color innerColor, Color borderColor, double limitWidth
+					if (newFigure != null)  canvasState.addFigure(newFigure);
+				}
 			}
 			startPoint = null;
 			redrawCanvas();
@@ -122,6 +133,7 @@ public class PaintPane extends BorderPane {
 				redrawCanvas();
 			}
 		});
+
 		canvas.setOnMouseDragged(event -> {
 			if(selectionButton.isSelected()) {
 				Point eventPoint = new Point(event.getX(), event.getY());
@@ -133,6 +145,7 @@ public class PaintPane extends BorderPane {
 				redrawCanvas();
 			}
 		});
+
 		setLeft(buttonsBox);
 		setRight(canvas);
 	}
@@ -146,18 +159,22 @@ public class PaintPane extends BorderPane {
 				gc.setStroke(lineColor);
 			}
 			gc.setFill(fillColor);
-			if(figure instanceof Rectangle) {
-				Rectangle rectangle = (Rectangle) figure;
-				gc.fillRect(rectangle.getTopLeft().getX(), rectangle.getTopLeft().getY(),
-						Math.abs(rectangle.getTopLeft().getX() - rectangle.getBottomRight().getX()), Math.abs(rectangle.getTopLeft().getY() - rectangle.getBottomRight().getY()));
-				gc.strokeRect(rectangle.getTopLeft().getX(), rectangle.getTopLeft().getY(),
-						Math.abs(rectangle.getTopLeft().getX() - rectangle.getBottomRight().getX()), Math.abs(rectangle.getTopLeft().getY() - rectangle.getBottomRight().getY()));
-			} else if(figure instanceof Circle) {
-				Circle circle = (Circle) figure;
-				double diameter = circle.getRadius() * 2;
-				gc.fillOval(circle.getCenterPoint().getX() - circle.getRadius(), circle.getCenterPoint().getY() - circle.getRadius(), diameter, diameter);
-				gc.strokeOval(circle.getCenterPoint().getX() - circle.getRadius(), circle.getCenterPoint().getY() - circle.getRadius(), diameter, diameter);
-			}
+//			if(figure instanceof Rectangle) {
+//				Rectangle rectangle = (Rectangle) figure;
+//				gc.fillRect(rectangle.getTopLeft().getX(), rectangle.getTopLeft().getY(),
+//						Math.abs(rectangle.getTopLeft().getX() - rectangle.getBottomRight().getX()),
+//						Math.abs(rectangle.getTopLeft().getY() - rectangle.getBottomRight().getY()));
+//				gc.strokeRect(rectangle.getTopLeft().getX(), rectangle.getTopLeft().getY(),
+//						Math.abs(rectangle.getTopLeft().getX() - rectangle.getBottomRight().getX()),
+//						Math.abs(rectangle.getTopLeft().getY() - rectangle.getBottomRight().getY()));
+//			} else if(figure instanceof Circle) {
+//				Circle circle = (Circle) figure;
+//				double diameter = circle.getRadius() * 2;
+//				gc.fillOval(circle.getCenterPoint().getX() - circle.getRadius(),
+//						circle.getCenterPoint().getY() - circle.getRadius(), diameter, diameter);
+//				gc.strokeOval(circle.getCenterPoint().getX() - circle.getRadius(),
+//						circle.getCenterPoint().getY() - circle.getRadius(), diameter, diameter);
+//			}
 		}
 	}
 }
