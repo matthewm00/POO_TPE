@@ -72,7 +72,7 @@ public class PaintPane extends BorderPane {
 				return ;
 			}
 			Figure newFigure = null;
-//			clickedButton = (FigureButton) tools.getSelectedToggle();
+			clickedButton = (FigureButton) tools.getSelectedToggle();
 			if (clickedButton != null && !selectionButton.isSelected()) {
 				newFigure = clickedButton.createFigure(startPoint, endPoint);
 				if (newFigure != null)
