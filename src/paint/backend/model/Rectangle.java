@@ -36,4 +36,9 @@ public class Rectangle extends Figure {
         return Arrays.asList(topLeft, bottomRight);
     }
 
+    @Override
+    public boolean containsPoint(Point p) {
+        return p.getX() > topLeft.getX() && p.getX() < bottomRight.getX() && p.getY() > topLeft.getY() && p.getY() < bottomRight.getY();
+    }
+
 }

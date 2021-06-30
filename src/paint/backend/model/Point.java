@@ -38,6 +38,10 @@ public class Point {
         this.y += deltaY;
     }
 
+    public double distanceToPoint(Point p) {
+        return Math.sqrt(Math.pow(p.getX() - this.getX(), 2) + Math.pow(p.getY() - this.getY(),2));
+    }
+
     @Override
     public String toString() {
         return String.format("{%.2f , %.2f}", x, y);

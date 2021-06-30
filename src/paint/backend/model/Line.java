@@ -1,6 +1,5 @@
 package paint.backend.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,6 +18,11 @@ public class Line extends Figure{
 
     public Point getEndPoint() {
         return endPoint;
+    }
+
+    @Override
+    public boolean containsPoint(Point p) {
+        return Double.compare(startPoint.distanceToPoint(p) + p.distanceToPoint(endPoint), startPoint.distanceToPoint(endPoint)) == 1;
     }
 
     @Override

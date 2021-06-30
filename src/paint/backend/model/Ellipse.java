@@ -31,4 +31,8 @@ public class Ellipse extends Figure{
         return Arrays.asList(centerPoint, bottomRight, topLeft);
     }
 
+    @Override
+    public boolean containsPoint(Point p) {
+        return Math.pow((centerPoint.getX() - p.getX())/radiusX, 2) + Math.pow((centerPoint.getY() - p.getY())/radiusY, 2) <= 1;
+    }
 }
