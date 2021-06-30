@@ -1,6 +1,5 @@
 package paint.backend.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,6 +8,7 @@ public class Rectangle extends Figure {
     private final Point topLeft, bottomRight;
 
     public Rectangle(Point topLeft, Point bottomRight) {
+        validatePoints(topLeft, bottomRight);
         this.topLeft = topLeft;
         this.bottomRight = bottomRight;
     }
