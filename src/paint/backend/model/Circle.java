@@ -1,5 +1,8 @@
 package paint.backend.model;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Circle extends Ellipse{
 
     public Circle(Point centerPoint, Point radiusPoint) {

@@ -64,16 +64,15 @@ public class PaintPane extends BorderPane {
 			if(startPoint == null) {
 				return ;
 			}
-			if(endPoint.getX() < startPoint.getX() || endPoint.getY() < startPoint.getY()) {
-				return ;
-			}
 			Figure newFigure = null;
 			if(rectangleButton.isSelected()) {
+				if(endPoint.getX() < startPoint.getX() || endPoint.getY() < startPoint.getY()) {
+					return ;
+				}
 				newFigure = new Rectangle(startPoint, endPoint);
 			}
 			else if(circleButton.isSelected()) {
-				double circleRadius = Math.abs(endPoint.getX() - startPoint.getX());
-				newFigure = new Circle(startPoint, new Point(circleRadius, circleRadius));
+				newFigure = new Circle(startPoint, endPoint);
 			} else {
 				return ;
 			}
