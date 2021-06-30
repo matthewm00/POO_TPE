@@ -136,14 +136,10 @@ public class PaintPane extends BorderPane {
 				double diffY = (eventPoint.getY() - startPoint.getY()) / 100;
 				if(selectedFigure instanceof Rectangle) {
 					Rectangle rectangle = (Rectangle) selectedFigure;
-					rectangle.getTopLeft().setX(diffX);
-					rectangle.getBottomRight().setX(diffX);
-					rectangle.getTopLeft().setY(diffY);
-					rectangle.getBottomRight().setY(diffY);
+					rectangle.move(diffX, diffY);
 				} else if(selectedFigure instanceof Circle) {
 					Circle circle = (Circle) selectedFigure;
-					circle.getCenterPoint().setX(diffX);
-					circle.getCenterPoint().setY(diffY);
+					circle.move(diffX, diffY);
 				}
 				redrawCanvas();
 			}
