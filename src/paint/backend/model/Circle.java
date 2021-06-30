@@ -11,11 +11,12 @@ public class Circle extends Ellipse{
 
     @Override
     public void init(Point centerPoint, Point radiusPoint){
-        this.centerPoint = centerPoint;
         double radius = Math.sqrt(Math.pow(centerPoint.differenceX(radiusPoint),2) + Math.pow(centerPoint.differenceY(radiusPoint),2));
-        this.radiusY = this.radiusX = radius;
+        this.radiusX = radius;
+        this.radiusY = radius;
         this.topLeft = new Point(centerPoint.getX() - radiusX,centerPoint.getY() - radiusY);
         this.bottomRight = new Point(centerPoint.getX() + radiusX,centerPoint.getY() + radiusY);
+        this.centerPoint = centerPoint;
     }
 
     public double getRadius() {

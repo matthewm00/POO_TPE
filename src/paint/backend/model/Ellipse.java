@@ -14,8 +14,8 @@ public class Ellipse extends Figure{
 
     public void init(Point topLeft, Point bottomRight){
         validatePoints(topLeft, bottomRight);
-        this.bottomRight = bottomRight;
         this.topLeft = topLeft;
+        this.bottomRight = bottomRight;
         this.radiusX = topLeft.differenceX(bottomRight) / 2;
         this.radiusY = topLeft.differenceY(bottomRight) / 2;
         this.centerPoint = new Point(topLeft.getX() + radiusX, topLeft.getY() + radiusY);

@@ -1,7 +1,7 @@
 package paint.frontend;
 
 import paint.backend.CanvasState;
-import paint.backend.button.FigureButton;
+import paint.backend.button.*;
 import paint.backend.model.Circle;
 import paint.backend.model.Figure;
 import paint.backend.model.Point;
@@ -28,23 +28,24 @@ public class PaintPane extends BorderPane {
 	Color fillColor = Color.YELLOW;
 
 	// Botones Barra Izquierda
-	ToggleButton selectionButton = new ToggleButton("Seleccionar");
-	ToggleButton rectangleButton = new ToggleButton("Rectángulo");
-	ToggleButton circleButton = new ToggleButton("Círculo");
-	ToggleButton ellipseButton = new ToggleButton("Elipse");
-	ToggleButton squareButton = new ToggleButton("Cuadrado");
-	ToggleButton lineButton = new ToggleButton("Linea");
+	private ToggleButton selectionButton = new ToggleButton("Seleccionar");
+	private FigureButton rectangleButton = new RectangleButton("Rectángulo");
+	private FigureButton circleButton = new CircleButton("Círculo");
+	private FigureButton ellipseButton = new EllipseButton("Elipse");
+	private FigureButton squareButton = new SquareButton("Cuadrado");
+	private FigureButton lineButton = new LineButton("Linea");
 
 	// Dibujar una figura
-	Point startPoint;
+	private Point startPoint;
 
 	// Seleccionar una figura
-	Figure selectedFigure;
+	private Figure selectedFigure;
 
 	// StatusBar
-	StatusPane statusPane;
+	private StatusPane statusPane;
 
-	FigureButton selectedButton;
+	// Boton clickeado
+	private FigureButton clickedButton;
 
 	public PaintPane(CanvasState canvasState, StatusPane statusPane) {
 		this.canvasState = canvasState;
@@ -71,23 +72,12 @@ public class PaintPane extends BorderPane {
 				return ;
 			}
 			Figure newFigure = null;
-			if (selectedButton != null) {
-				newFigure = selectedButton.createFigure(startPoint, endPoint);
+			clickedButton = (FigureButton) tools.getSelectedToggle();
+			if (clickedButton != null) {
+				newFigure = clickedButton.createFigure(startPoint, endPoint);
 				if (newFigure != null)
 					canvasState.addFigure(newFigure);
 			}
-			if(rectangleButton.isSelected()) {
-				if(endPoint.getX() < startPoint.getX() || endPoint.getY() < startPoint.getY()) {
-					return ;
-				}
-				newFigure = new Rectangle(startPoint, endPoint);
-			}
-			else if(circleButton.isSelected()) {
-				newFigure = new Circle(startPoint, endPoint);
-			} else {
-				return ;
-			}
-			canvasState.addFigure(newFigure);
 			startPoint = null;
 			redrawCanvas();
 		});
