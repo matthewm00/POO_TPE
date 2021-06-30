@@ -72,8 +72,8 @@ public class PaintPane extends BorderPane {
 				return ;
 			}
 			Figure newFigure = null;
-			clickedButton = (FigureButton) tools.getSelectedToggle();
-			if (clickedButton != null) {
+//			clickedButton = (FigureButton) tools.getSelectedToggle();
+			if (clickedButton != null && !selectionButton.isSelected()) {
 				newFigure = clickedButton.createFigure(startPoint, endPoint);
 				if (newFigure != null)
 					canvasState.addFigure(newFigure);
@@ -81,6 +81,7 @@ public class PaintPane extends BorderPane {
 			startPoint = null;
 			redrawCanvas();
 		});
+		//
 		canvas.setOnMouseMoved(event -> {
 			Point eventPoint = new Point(event.getX(), event.getY());
 			boolean found = false;
@@ -97,7 +98,8 @@ public class PaintPane extends BorderPane {
 				statusPane.updateStatus(eventPoint.toString());
 			}
 		});
-
+		//
+		// repite codigo entre mouseMoved y mouseClicked
 		canvas.setOnMouseClicked(event -> {
 			if(selectionButton.isSelected()) {
 				Point eventPoint = new Point(event.getX(), event.getY());
@@ -124,13 +126,7 @@ public class PaintPane extends BorderPane {
 				Point eventPoint = new Point(event.getX(), event.getY());
 				double diffX = (eventPoint.getX() - startPoint.getX()) / 100;
 				double diffY = (eventPoint.getY() - startPoint.getY()) / 100;
-				if(selectedFigure instanceof Rectangle) {
-					Rectangle rectangle = (Rectangle) selectedFigure;
-					rectangle.move(diffX, diffY);
-				} else if(selectedFigure instanceof Circle) {
-					Circle circle = (Circle) selectedFigure;
-					circle.move(diffX, diffY);
-				}
+				selectedFigure.move(diffX, diffY);
 				redrawCanvas();
 			}
 		});

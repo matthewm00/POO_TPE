@@ -13,7 +13,6 @@ public class Rectangle extends Figure {
     }
 
     protected void init(Point topLeft, Point bottomRight) {
-        validatePoints(topLeft, bottomRight);
         this.topLeft = topLeft;
         this.bottomRight = bottomRight;
     }
