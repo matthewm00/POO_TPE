@@ -7,6 +7,12 @@ public class Square extends Rectangle{
     }
 
     @Override
+    protected void init(Point topLeft, Point bottomRight) {
+        this.topLeft = topLeft;
+        this.bottomRight = new Point(bottomRight.getX(), topLeft.getY() + bottomRight.getX() - topLeft.getX());
+    }
+
+    @Override
     public String source() {
         return String.format("Cuadrado [ %s , %s ]", getTopLeft(), getBottomRight());
     }

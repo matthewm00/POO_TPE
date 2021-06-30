@@ -5,9 +5,14 @@ import java.util.List;
 
 public class Rectangle extends Figure {
 
-    private final Point topLeft, bottomRight;
+    protected Point topLeft, bottomRight;
 
     public Rectangle(Point topLeft, Point bottomRight) {
+        validatePoints(topLeft, bottomRight);
+        init(topLeft, bottomRight);
+    }
+
+    protected void init(Point topLeft, Point bottomRight) {
         validatePoints(topLeft, bottomRight);
         this.topLeft = topLeft;
         this.bottomRight = bottomRight;
