@@ -114,69 +114,53 @@ public class PaintPane extends BorderPane {
 		canvas.setOnMousePressed(event -> startPoint = new Point(event.getX(), event.getY()));
 
 		canvas.setOnMouseReleased(event -> {
-			Point endPoint = new Point(event.getX(), event.getY());
-			Drawable newFigure;
-			if(startPoint == null){return;}
-			if(!selectionButton.isSelected()) { // boton de alguna figura
-				clickedButton = (FigureButton) tools.getSelectedToggle();
-				if (clickedButton != null) {
-					newFigure = clickedButton.createFigure(startPoint, endPoint, fillColorPicker.getValue(), borderColorPicker.getValue(), borderWidthSlider.getValue());
-					newFigure.draw(gc);
-					canvasState.addFigure(newFigure);
-				}
-			}else{ // estoy con el boton de seleccionar
-				StringBuilder description = new StringBuilder("Se seleccionó: ");
-				if (startPoint.equals(endPoint)){ // un solo click
-					Drawable last = canvasState.getTheSelectedFigure(endPoint);
-					if (last != null){ // si se selecciono una figura
-						description.append(last);
+					Point endPoint = new Point(event.getX(), event.getY());
+					Drawable newFigure;
+					if (startPoint == null) {
+						return;
 					}
-				}else { // seleccion multiple
-					Set<Drawable> allSelectedFigures = canvasState.getSelectedFigures(startPoint, endPoint);
-	//				es probable que este tipo de for-each lo tengamos en
-	//				algun metodo private por aca
-					for (Drawable figure : allSelectedFigures){
-						description.append(figure);
-						description.append(", ");
+					if (!selectionButton.isSelected() && !startPoint.equals(endPoint)) {
+						clickedButton = (FigureButton) tools.getSelectedToggle();
+						if (clickedButton != null) {
+							newFigure = clickedButton.createFigure(startPoint, endPoint, fillColorPicker.getValue(), borderColorPicker.getValue(), borderWidthSlider.getValue());
+							newFigure.draw(gc);
+							canvasState.addFigure(newFigure);
+						}
 					}
-					description.deleteCharAt(description.length() - 1);
-				}
-			}
+					else if(selectionButton.isSelected()) {
+						// en el boton "Seleccionar"
+						StringBuilder description = new StringBuilder("Se seleccionó: ");
+						if (startPoint.equals(endPoint)) { // una sola figura
+							Drawable figure = canvasState.getTheSelectedFigure(endPoint);
+							if (figure != null) {
+								description.append(figure.toString());
+							}
+						} else { // seleccion multiple
+							Set<Drawable> allSelectedFigures = canvasState.getSelectedFigures(startPoint, endPoint);
+							for (Drawable figure : allSelectedFigures) {
+								description.append(figure);
+								description.append(", ");
+							}
+							description.deleteCharAt(description.length() - 1);
+						}
+					}
 			startPoint = null;
 			redrawCanvas();
 		});
-		//
 		canvas.setOnMouseMoved(event -> {
 			Point eventPoint = new Point(event.getX(), event.getY());
-			boolean found = false;
 			StringBuilder label = new StringBuilder();
-			for(Drawable figure : canvasState.figures()) {
-				if(figure.containsPoint(eventPoint)) {
-					found = true;
-					label.append(figure.toString());
-				}
-			}
-			if(found) {
+			if (findFigure(eventPoint, label)){
 				statusPane.updateStatus(label.toString());
 			} else {
 				statusPane.updateStatus(eventPoint.toString());
 			}
 		});
-		//
-		// repite codigo entre mouseMoved y mouseClicked
 		canvas.setOnMouseClicked(event -> {
 			if(selectionButton.isSelected()) {
 				Point eventPoint = new Point(event.getX(), event.getY());
-				boolean found = false;
 				StringBuilder label = new StringBuilder("Se seleccionó: ");
-				for (Drawable figure : canvasState.figures()) {
-					if(figure.containsPoint(eventPoint)) {
-						found = true;
-						selectedFigure = figure;
-						label.append(figure.toString());
-					}
-				}
-				if (found) {
+				if (findFigure(eventPoint, label)){
 					statusPane.updateStatus(label.toString());
 				} else {
 					selectedFigure = null;
@@ -195,6 +179,18 @@ public class PaintPane extends BorderPane {
 				startPoint = eventPoint;
 				redrawCanvas();
 			}
+		});
+
+		backButton.setOnAction(event -> {
+			canvasState.moveToBack();
+		});
+
+		frontButton.setOnAction(event -> {
+			canvasState.moveToFront();
+		});
+
+		deleteButton.setOnAction(event-> {
+			canvasState.removeSelectedFigures();
 		});
 
 		setLeft(buttonsBox);
@@ -221,5 +217,15 @@ public class PaintPane extends BorderPane {
 		}
 	}
 
-
+	private boolean findFigure(Point eventPoint, StringBuilder label) {
+		boolean found = false;
+		for (Drawable figure : canvasState.figures()) {
+			if(figure.containsPoint(eventPoint)) {
+				found = true;
+				selectedFigure = figure;
+				label.append(figure);
+			}
+		}
+		return found;
+	}
 }

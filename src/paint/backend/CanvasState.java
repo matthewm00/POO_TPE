@@ -1,41 +1,44 @@
 package paint.backend;
 
 import paint.backend.model.Figure;
+import paint.backend.model.Line;
 import paint.backend.model.Point;
 
 import java.util.*;
 
 public class CanvasState {
 
-    private final List<Drawable> list = new ArrayList<>();
+    private final LinkedList<Drawable> list = new LinkedList<>();
     private final Set<Drawable> selectedFigures = new HashSet<>();
 
     public void addFigure(Drawable figure) {
         list.add(figure);
     }
+
     public void addSelectedFigure(Drawable figure){
         selectedFigures.add(figure);
     }
+
     public Iterable<Drawable> figures() {
         return list;
     }
 
-//    public void removeSelectedFigures(){
-//        list.removeAll(selectedFigures);
-//    }
+    public void removeSelectedFigures(){
+        list.removeAll(selectedFigures);
+    }
 
     public void moveSelectedFigures(double deltaX, double deltaY){
         selectedFigures.forEach(figure -> figure.move(deltaX, deltaY));
     }
 
+    // Seleccion multiple
     public Set<Drawable> getSelectedFigures(Point start, Point end){
         deselectAllFigures();
-        ImaginaryRectangle area = new ImaginaryRectangle(start, end);// imaginario
+        ImaginaryRectangle area = new ImaginaryRectangle(start, end);
         boolean ok = true;
-        for (Drawable figure : list){ // recorro todas las figuras
+        for (Drawable figure : list){
             for (Point point : figure.getPoints()) {
-//                si en area no tengo todos los puntos de la figure
-                if (!area.containsPoint(point)){ // paso al siguiente
+                if (!area.containsPoint(point)){
                     ok = false;
                 }
             }
@@ -45,10 +48,6 @@ public class CanvasState {
         return selectedFigures;
     }
 
-//    NO REPITO CODIGO O PODRIA USAR EL OTRO GET??
-//    lo tengo que agregar seguramente al set para mas adelante pero como
-//    hago para darme cuenta si o si que el set es de un solo elemento?
-//    creo que asi, si queda de un solo elem pero chequear
     public Drawable getTheSelectedFigure(Point point){
         deselectAllFigures();
         for (Drawable figure : list){
@@ -74,7 +73,21 @@ public class CanvasState {
         }
     }
 
-    //VER
+    public void moveToFront()
+    {
+        removeSelectedFigures();
+        for (Drawable figure : selectedFigures)
+            list.addLast(figure); // para invertir el orden de la coleccion
+    }
+
+    public void moveToBack()
+    {
+        removeSelectedFigures();
+        for (Drawable figure : selectedFigures)
+            list.addFirst(figure);
+    }
+
+
     private class ImaginaryRectangle {
         Point start;
         Point end;
@@ -89,5 +102,4 @@ public class CanvasState {
                     p.getY() > end.getY() && p.getY() < end.getY();
         }
     }
-
 }
