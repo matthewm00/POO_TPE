@@ -9,13 +9,13 @@ public abstract class Figure implements Model {
     private Color borderColor;
     private double borderWidth;
     protected Point start, end;
+    protected DrawData drawData;
 
 
     public Figure(Point start, Point end, Color borderColor, double borderWidth) {
         this.start = start;
         this.end = end;
-        this.borderColor = borderColor;
-        this.borderWidth = borderWidth;
+        this.drawData = new DrawData(fillColor, borderColor, borderWidth);
     }
 
     public abstract void draw(GraphicsContext gc);
