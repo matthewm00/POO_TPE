@@ -1,27 +1,27 @@
 package paint.frontend;
 
-import javafx.scene.control.*;
-import paint.backend.CanvasState;
-import paint.backend.button.*;
-import paint.backend.model.Circle;
-import paint.backend.model.Figure;
-import paint.backend.model.Point;
-import paint.backend.model.Rectangle;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import paint.backend.CanvasState;
+import paint.backend.button.*;
+import paint.backend.model.Figure;
+import paint.backend.model.Point;
 
 public class PaintPane extends BorderPane {
 
-	private static final Color DEFAULT_BORDER_COLOR = Color.RED;
-	private static final Color DEFAULT_INNER_COLOR = Color.BLUE;
-	private	static final double MAX_VALUE_SLIDER = 20;
+	private static final Color DEFAULT_BORDER_COLOR = Color.BLACK;
+	private static final Color DEFAULT_INNER_COLOR = Color.YELLOW;
+	private	static final double MAX_VALUE_SLIDER = 50;
 	private static final double MIN_VALUE_SLIDER = 1;
-	private static final double INITIAL_VALUE_SLIDER = 4;
+	private static final double INITIAL_VALUE_SLIDER = 0;
 
 	// BackEnd
 	CanvasState canvasState;
@@ -31,13 +31,18 @@ public class PaintPane extends BorderPane {
 	GraphicsContext gc = canvas.getGraphicsContext2D();
 
 	// Botones Barra Izquierda
-	private ToggleButton selectionButton = new ToggleButton("Seleccionar");
+	private final ToggleButton selectionButton = new ToggleButton("Seleccionar");
 
-	private FigureButton rectangleButton = new RectangleButton("Rectángulo");
-	private FigureButton circleButton = new CircleButton("Círculo");
-	private FigureButton ellipseButton = new EllipseButton("Elipse");
-	private FigureButton squareButton = new SquareButton("Cuadrado");
-	private FigureButton lineButton = new LineButton("Linea");
+	private final FigureButton rectangleButton = new RectangleButton("Rectángulo");
+	private final FigureButton circleButton = new CircleButton("Círculo");
+	private final FigureButton ellipseButton = new EllipseButton("Elipse");
+	private final FigureButton squareButton = new SquareButton("Cuadrado");
+	private final FigureButton lineButton = new LineButton("Linea");
+
+	private final Slider borderWidthSlider = new Slider(MIN_VALUE_SLIDER, MAX_VALUE_SLIDER, INITIAL_VALUE_SLIDER);
+	private final ColorPicker borderColorPicker = new ColorPicker(DEFAULT_BORDER_COLOR);
+	private final ColorPicker innerColorPicker = new ColorPicker(DEFAULT_INNER_COLOR);
+
 
 	private ToggleButton deleteButton = new ToggleButton("Borrar");
 
@@ -56,17 +61,10 @@ public class PaintPane extends BorderPane {
 	private Label borderLabel = new Label("Borde");
 	private Label fillLabel = new Label("Relleno");
 
-	private final ColorPicker borderColorPicker = new ColorPicker(DEFAULT_BORDER_COLOR);
-	private final ColorPicker innerColorPicker = new ColorPicker(DEFAULT_INNER_COLOR);
-	private final Slider borderWidthSlider = new Slider(MIN_VALUE_SLIDER, MAX_VALUE_SLIDER, INITIAL_VALUE_SLIDER);
 
 	public PaintPane(CanvasState canvasState, StatusPane statusPane) {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
-
-		deleteButton.setOnAction(event -> {
-
-		});
 
 		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, ellipseButton, squareButton, lineButton, deleteButton};
 		ToggleGroup tools = new ToggleGroup();
@@ -82,6 +80,26 @@ public class PaintPane extends BorderPane {
 		buttonsBox.setStyle("-fx-background-color: #999");
 		buttonsBox.setPrefWidth(100);
 		gc.setLineWidth(1);
+
+		Label borderWidthText = new Label("Borde");
+		borderWidthSlider.setShowTickLabels(true);
+		borderWidthSlider.setShowTickMarks(true);
+		buttonsBox.getChildren().add(borderWidthText);
+		buttonsBox.getChildren().add(borderWidthSlider);
+		buttonsBox.getChildren().add(borderColorPicker);
+
+		EventHandler<MouseEvent> sliderEvent = mouseEvent -> {
+			if(canvasState.containsSelectedFigure(selectedFigure)) {
+				canvasState.setBorderWidth(borderWidthSlider.getValue());
+				redrawCanvas();
+			}
+		};
+		borderWidthSlider.setOnMouseDragged(sliderEvent);
+		borderWidthSlider.setOnMouseClicked(sliderEvent);
+
+		deleteButton.setOnAction(event -> {
+
+		});
 
 
 		canvas.setOnMousePressed(event -> {
@@ -169,6 +187,7 @@ public class PaintPane extends BorderPane {
 				gc.setStroke(Color.BLACK);
 			}
 			gc.setFill(Color.YELLOW);
+			figure.draw(gc);
 //			if(figure instanceof Rectangle) {
 //				Rectangle rectangle = (Rectangle) figure;
 //				gc.fillRect(rectangle.getTopLeft().getX(), rectangle.getTopLeft().getY(),
@@ -187,4 +206,6 @@ public class PaintPane extends BorderPane {
 //			}
 		}
 	}
+
+
 }

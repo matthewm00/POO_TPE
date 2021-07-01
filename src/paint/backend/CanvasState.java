@@ -53,6 +53,16 @@ public class CanvasState {
         selectedFigures.clear();
     }
 
+    public boolean containsSelectedFigure(Figure figure) {
+        return selectedFigures.contains(figure);
+    }
+
+    public void setBorderWidth(double width) {
+        for(Figure figure: selectedFigures) {
+            figure.setLimitWidth(width);
+        }
+    }
+
     private class ImaginaryRectangle extends SimpleFigure{
 
         public ImaginaryRectangle(Point start, Point end) {

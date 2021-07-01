@@ -4,10 +4,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import java.util.Objects;
 
-public abstract class Figure extends SimpleFigure implements Model {
+public abstract class Figure extends SimpleFigure  implements Model {
 
     private Color borderColor;
     private double limitWidth;
+    protected Point start, end;
 
     public Figure(Point start, Point end, Color borderColor, double limitWidth) {
         super(start, end);
@@ -34,8 +35,6 @@ public abstract class Figure extends SimpleFigure implements Model {
     public double getLimitWidth() {
         return limitWidth;
     }
-
-
 
     @Override
     public String toString(){

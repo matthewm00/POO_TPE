@@ -2,43 +2,39 @@ package paint.backend.model;
 
 import javafx.scene.canvas.GraphicsContext;
 
-import javafx.scene.paint.Color;
 import java.util.Arrays;
 import java.util.List;
 
-public class Line extends Figure{
+public class Line extends SimpleFigure{
 
-    public Line(Point startPoint, Point endPoint, Color borderColor, double limitWidth) {
-        super(startPoint, endPoint, borderColor, limitWidth);
+    private Point startPoint, endPoint;
 
-    }
-
-    @Override
-    public void draw(GraphicsContext gc) {
-        gc.strokeLine(getStartPoint().getX(), getStartPoint().getY(), getEndPoint().getX(), getEndPoint().getY());
+    public Line(Point startPoint, Point endPoint) {
+        super(startPoint, endPoint);
     }
 
     public Point getStartPoint() {
-        return start;
+        return startPoint;
     }
 
     public Point getEndPoint() {
-        return end;
+        return endPoint;
     }
 
-    @Override
     public boolean containsPoint(Point p) {
-        return Double.compare(start.distanceToPoint(p) + p.distanceToPoint(end), start.distanceToPoint(end)) == 1;
+        return Double.compare(startPoint.distanceToPoint(p) + p.distanceToPoint(endPoint), startPoint.distanceToPoint(endPoint)) == 1;
     }
 
-    @Override
     public List<Point> getPoints(){
-        return Arrays.asList(start, end);
+        return Arrays.asList(startPoint, endPoint);
     }
 
-    @Override
+    public void draw(GraphicsContext gc) {
+        gc.strokeLine(startPoint.getX(), startPoint.getY(), endPoint.getX(), endPoint.getY());
+    }
+
     public String source() {
-        return String.format("Linea [ De: %s , Hasta: %s ]", start, end);
+        return String.format("Linea [ Desde: %s , Hasta: %s ]", startPoint, endPoint);
     }
 
 }

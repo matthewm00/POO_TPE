@@ -1,6 +1,5 @@
 package paint.backend.model;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class Circle extends Ellipse{
@@ -30,11 +29,5 @@ public class Circle extends Ellipse{
     @Override
     public String source() {
         return String.format("Círculo [Centro: %s, Radio: %.2f]", centerPoint, getRadius());
-    }
-
-    @Override
-    public void draw(GraphicsContext gc){
-        gc.fillOval(start.getX(), start.getY(), getWidth(), getHeight());
-        gc.strokeOval(start.getX(), start.getY(), getWidth(), getHeight());
     }
 }
