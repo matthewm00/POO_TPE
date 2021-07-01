@@ -19,6 +19,12 @@ import javafx.scene.paint.Color;
 
 public class PaintPane extends BorderPane {
 
+	private static final Color DEFAULT_BORDER_COLOR = Color.RED;
+	private static final Color DEFAULT_INNER_COLOR = Color.BLUE;
+	private	static final double MAX_VALUE_SLIDER = 20;
+	private static final double MIN_VALUE_SLIDER = 1;
+	private static final double INITIAL_VALUE_SLIDER = 4;
+
 	// BackEnd
 	CanvasState canvasState;
 
