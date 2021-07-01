@@ -118,7 +118,7 @@ public class PaintPane extends BorderPane {
 			if(!selectionButton.isSelected()) { // boton de alguna figura
 				clickedButton = (FigureButton) tools.getSelectedToggle();
 				if (clickedButton != null) {
-					newFigure = clickedButton.createFigure(startPoint, endPoint, (Color)fillColorPicker.getValue(), (Color)borderColorPicker.getValue(), borderWidthSlider.getValue());
+					newFigure = clickedButton.createFigure(startPoint, endPoint, (Color)borderColorPicker.getValue(), borderWidthSlider.getValue(), (Color)fillColorPicker.getValue());
 					newFigure.draw(gc);
 					if (newFigure != null)  canvasState.addFigure(newFigure);
 				}
@@ -170,8 +170,9 @@ public class PaintPane extends BorderPane {
 		canvas.setOnMouseDragged(event -> {
 			if(selectionButton.isSelected()) {
 				Point eventPoint = new Point(event.getX(), event.getY());
-				double diffX = (eventPoint.getX() - startPoint.getX()) / 100;
-				double diffY = (eventPoint.getY() - startPoint.getY()) / 100;
+				double diffX = (eventPoint.getX() - startPoint.getX());
+				double diffY = (eventPoint.getY() - startPoint.getY());
+				startPoint = eventPoint;
 				if(selectedFigure.containsPoint(eventPoint)) {
 					selectedFigure.move(diffX, diffY);
 				}
@@ -193,22 +194,6 @@ public class PaintPane extends BorderPane {
 			}
 			gc.setFill(Color.YELLOW);
 			figure.draw(gc);
-//			if(figure instanceof Rectangle) {
-//				Rectangle rectangle = (Rectangle) figure;
-//				gc.fillRect(rectangle.getTopLeft().getX(), rectangle.getTopLeft().getY(),
-//						Math.abs(rectangle.getTopLeft().getX() - rectangle.getBottomRight().getX()),
-//						Math.abs(rectangle.getTopLeft().getY() - rectangle.getBottomRight().getY()));
-//				gc.strokeRect(rectangle.getTopLeft().getX(), rectangle.getTopLeft().getY(),
-//						Math.abs(rectangle.getTopLeft().getX() - rectangle.getBottomRight().getX()),
-//						Math.abs(rectangle.getTopLeft().getY() - rectangle.getBottomRight().getY()));
-//			} else if(figure instanceof Circle) {
-//				Circle circle = (Circle) figure;
-//				double diameter = circle.getRadius() * 2;
-//				gc.fillOval(circle.getCenterPoint().getX() - circle.getRadius(),
-//						circle.getCenterPoint().getY() - circle.getRadius(), diameter, diameter);
-//				gc.strokeOval(circle.getCenterPoint().getX() - circle.getRadius(),
-//						circle.getCenterPoint().getY() - circle.getRadius(), diameter, diameter);
-//			}
 		}
 	}
 

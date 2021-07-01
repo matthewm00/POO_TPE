@@ -2,22 +2,26 @@ package paint.backend.model;
 
 import javafx.scene.paint.Color;
 
-public abstract class ComplexFigure extends Figure{
-    private Color innerColor;
+/*
+ComplexFigure: Borde(Color/Grosor) + relleno
+ */
 
-    public ComplexFigure(Point start, Point end, Color innerColor, Color borderColor, double limitWidth){ // relleno, borde, suAncho
-        super(start, end, borderColor, limitWidth);
-        this.innerColor = innerColor;
+public abstract class ComplexFigure extends Figure{
+    private Color fillColor;
+
+    public ComplexFigure(Point start, Point end, Color borderColor, double borderWidth, Color fillColor) {
+        super(start, end, borderColor, borderWidth);
+        this.fillColor = fillColor;
     }
 
     @Override
-    public boolean isComplex(){return true;}
+    public boolean isComplex(){ return true;}
 
-    public Color getInnerColor() {
-        return innerColor;
+    public Color getFillColor() {
+        return fillColor;
     }
 
-    public void setInnerColor(Color innerColor) {
-        this.innerColor = innerColor;
+    public void setFillColor(Color fillColor) {
+        this.fillColor = fillColor;
     }
 }

@@ -1,6 +1,7 @@
 package paint.backend.model;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,8 +10,8 @@ public class Line extends SimpleFigure{
 
     private Point startPoint, endPoint;
 
-    public Line(Point startPoint, Point endPoint) {
-        super(startPoint, endPoint);
+    public Line(Point startPoint, Point endPoint, Color borderColor, double borderWidth) {
+        super(startPoint, endPoint, borderColor, borderWidth);
     }
 
     public Point getStartPoint() {

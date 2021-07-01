@@ -1,12 +1,19 @@
 package paint.backend.model;
 
-public abstract class SimpleFigure {
+import javafx.scene.paint.Color;
+
+/*
+SimpleFigure: Borde(Color/Grosor)
+ */
+
+public abstract class SimpleFigure extends Figure{
     protected Point start, end;
 
-    public SimpleFigure(Point start, Point end) {
-        this.start = start;
-        this.end = end;
+    public SimpleFigure(Point start, Point end, Color borderColor, double borderWidth) {
+        super(start, end, borderColor, borderWidth);
     }
+
+    public boolean isComplex() {return false;}
 
 //    metodo default de containsPoint
     public boolean containsPoint(Point p) {

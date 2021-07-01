@@ -8,8 +8,8 @@ import java.util.List;
 
 public class Rectangle extends ComplexFigure {
 
-    public Rectangle(Point topLeft, Point bottomRight, Color innerColor, Color borderColor, double limitWidth) {
-        super(topLeft, bottomRight, innerColor, borderColor, limitWidth);
+    public Rectangle(Point topLeft, Point bottomRight, Color borderColor, double borderWidth, Color fillColor) {
+        super(topLeft, bottomRight, borderColor, borderWidth, fillColor);
         validatePoints(topLeft, bottomRight);
         init(topLeft, bottomRight);
     }
@@ -51,5 +51,11 @@ public class Rectangle extends ComplexFigure {
     public void draw(GraphicsContext gc) {
         gc.fillRect(getTopLeft().getX(), getTopLeft().getY(), getWidth(),getHeight());
         gc.strokeRect(getTopLeft().getX(), getTopLeft().getY(), getWidth(), getHeight());
+    }
+
+    @Override
+    public boolean containsPoint(Point p) {
+        return p.getX() > getTopLeft().getX() && p.getX() < getBottomRight().getX() &&
+                p.getY() > getTopLeft().getY() && p.getY() < getBottomRight().getY();
     }
 }

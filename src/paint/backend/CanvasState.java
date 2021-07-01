@@ -2,7 +2,6 @@ package paint.backend;
 
 import paint.backend.model.Figure;
 import paint.backend.model.Point;
-import paint.backend.model.SimpleFigure;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,7 +33,7 @@ public class CanvasState {
 
     public Set<Figure> getSelectedFigures(Point start, Point end){
         deselectAllFigures();
-        SimpleFigure area = new ImaginaryRectangle(start, end);// imaginario
+        ImaginaryRectangle area = new ImaginaryRectangle(start, end);// imaginario
         boolean ok = true;
         for (Figure figure : list){ // recorro todas las figuras
             for (Point point : figure.getPoints()) {
@@ -59,15 +58,25 @@ public class CanvasState {
 
     public void setBorderWidth(double width) {
         for(Figure figure: selectedFigures) {
-            figure.setLimitWidth(width);
+            figure.setBorderWidth(width);
         }
     }
 
-    private class ImaginaryRectangle extends SimpleFigure{
+    private class ImaginaryRectangle {
+        Point start;
+        Point end;
 
         public ImaginaryRectangle(Point start, Point end) {
-            super(start, end);
+            this.start = start;
+            this.end = end;
         }
+
+        public boolean containsPoint(Point p) {
+            return p.getX() > start.getX() && p.getX() < start.getX() &&
+                    p.getY() > end.getY() && p.getY() < end.getY();
+        }
+
+
     }
 
 }

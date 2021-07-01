@@ -11,7 +11,7 @@ public class CircleButton extends FigureButton{
     }
 
     @Override
-    public Figure createFigure(Point start, Point end, Color innerColor, Color borderColor, double limitWidth) {
-        return new Circle(start, end, innerColor, borderColor, limitWidth);
+    public Figure createFigure(Point start, Point end, Color borderColor, double borderWidth, Color fillColor) {
+        return new Circle(start, end, borderColor, borderWidth, fillColor);
     }
 }

@@ -11,8 +11,8 @@ public class Ellipse extends ComplexFigure{
     protected Point centerPoint;
     protected double radiusY, radiusX;
 
-    public Ellipse(Point topLeft, Point bottomRight, Color innerColor, Color borderColor, double limitWidth) {
-        super(topLeft, bottomRight, innerColor, borderColor, limitWidth);
+    public Ellipse(Point topLeft, Point bottomRight, Color borderColor, double borderWidth, Color fillColor) {
+        super(topLeft, bottomRight, borderColor, borderWidth, fillColor);
         init(topLeft, bottomRight);
     }
 

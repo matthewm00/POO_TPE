@@ -10,8 +10,9 @@ public class EllipseButton extends FigureButton{
     public EllipseButton(String text) {
         super(text);
     }
+
     @Override
-    public Figure createFigure(Point start, Point end, Color innerColor, Color borderColor, double limitWidth) {
-        return new Ellipse(start, end, innerColor, borderColor, limitWidth);
+    public Figure createFigure(Point start, Point end, Color borderColor, double borderWidth, Color fillColor) {
+        return new Ellipse(start, end, borderColor, borderWidth, fillColor);
     }
 }

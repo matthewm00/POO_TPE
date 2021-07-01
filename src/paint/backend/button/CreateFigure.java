@@ -7,5 +7,5 @@ import javafx.scene.paint.Color;
 
 @FunctionalInterface
 public interface CreateFigure {
-    Figure createFigure(Point start, Point end, Color innerColor, Color borderColor, double limitWidth);
+    Figure createFigure(Point start, Point end, Color borderColor, double borderWidth, Color fillColor);
 }

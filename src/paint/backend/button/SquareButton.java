@@ -13,7 +13,7 @@ public class SquareButton extends FigureButton{
 
 
     @Override
-    public Figure createFigure(Point start, Point end, Color innerColor, Color borderColor, double limitWidth) {
-        return new Square(start, end, innerColor, borderColor, limitWidth);
+    public Figure createFigure(Point start, Point end, Color borderColor, double borderWidth, Color fillColor) {
+        return new Square(start, end, borderColor, borderWidth, fillColor);
     }
 }

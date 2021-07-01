@@ -4,41 +4,45 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import java.util.Objects;
 
-public abstract class Figure extends SimpleFigure  implements Model {
+public abstract class Figure implements Model {
 
     private Color borderColor;
-    private double limitWidth;
+    private double borderWidth;
     protected Point start, end;
 
-    public Figure(Point start, Point end, Color borderColor, double limitWidth) {
-        super(start, end);
+
+    public Figure(Point start, Point end, Color borderColor, double borderWidth) {
+        this.start = start;
+        this.end = end;
         this.borderColor = borderColor;
-        this.limitWidth = limitWidth;
+        this.borderWidth = borderWidth;
     }
 
-    public boolean isComplex(){return false;}
+    public abstract void draw(GraphicsContext gc);
+
+    public abstract boolean isComplex();
+
+    public abstract boolean containsPoint(Point p);
 
     public void setBorderColor(Color borderColor) {
         this.borderColor = borderColor;
     }
 
-    public void setLimitWidth(double limitWidth) {
-        this.limitWidth = limitWidth;
+    public void setBorderWidth(double borderWidth) {
+        this.borderWidth = borderWidth;
     }
-
-    public abstract void draw(GraphicsContext gc);
 
     public Color getBorderColor() {
         return borderColor;
     }
 
-    public double getLimitWidth() {
-        return limitWidth;
+    public double getBorderWidth() {
+        return borderWidth;
     }
 
     @Override
-    public String toString(){
-        return source();
+    public String source() {
+        return toString();
     }
 
     public void validatePoints(Point topLeft, Point bottomRight) {
