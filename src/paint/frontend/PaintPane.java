@@ -103,16 +103,15 @@ public class PaintPane extends BorderPane {
 		};
 		borderWidthSlider.setOnMouseDragged(sliderEvent);
 		borderWidthSlider.setOnMouseClicked(sliderEvent);
-
-		//borderColorPicker.setOnAction(event -> selectedFigure.setBorderColor(borderColorPicker.getValue()));
-
-		deleteButton.setOnAction(event -> {
-
+		borderColorPicker.setOnAction(event -> selectedFigure.setBorderColor(borderColorPicker.getValue()));
+		fillColorPicker.setOnAction(event -> {
+			if(canvasState.containsSelectedFigure(selectedFigure)) {
+				selectedFigure.setFillColor(fillColorPicker.getValue());
+				redrawCanvas();
+			}
 		});
 
-		canvas.setOnMousePressed(event -> {
-			startPoint = new Point(event.getX(), event.getY());
-		});
+		canvas.setOnMousePressed(event -> startPoint = new Point(event.getX(), event.getY()));
 
 		canvas.setOnMouseReleased(event -> {
 			Point endPoint = new Point(event.getX(), event.getY());
@@ -192,8 +191,8 @@ public class PaintPane extends BorderPane {
 				Point eventPoint = new Point(event.getX(), event.getY());
 				double diffX = (eventPoint.getX() - startPoint.getX());
 				double diffY = (eventPoint.getY() - startPoint.getY());
-				startPoint = eventPoint;
 				selectedFigure.move(diffX, diffY);
+				startPoint = eventPoint;
 				redrawCanvas();
 			}
 		});
