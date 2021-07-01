@@ -18,7 +18,7 @@ import paint.backend.model.Point;
 public class PaintPane extends BorderPane {
 
 	private static final Color DEFAULT_BORDER_COLOR = Color.BLACK;
-	private static final Color DEFAULT_INNER_COLOR = Color.YELLOW;
+	private static final Color DEFAULT_FILL_COLOR = Color.YELLOW;
 	private	static final double MAX_VALUE_SLIDER = 50;
 	private static final double MIN_VALUE_SLIDER = 1;
 	private static final double INITIAL_VALUE_SLIDER = 0;
@@ -41,10 +41,10 @@ public class PaintPane extends BorderPane {
 
 	private final Slider borderWidthSlider = new Slider(MIN_VALUE_SLIDER, MAX_VALUE_SLIDER, INITIAL_VALUE_SLIDER);
 	private final ColorPicker borderColorPicker = new ColorPicker(DEFAULT_BORDER_COLOR);
-	private final ColorPicker innerColorPicker = new ColorPicker(DEFAULT_INNER_COLOR);
+	private final ColorPicker fillColorPicker = new ColorPicker(DEFAULT_FILL_COLOR);
 
 
-	private ToggleButton deleteButton = new ToggleButton("Borrar");
+	private final ToggleButton deleteButton = new ToggleButton("Borrar");
 
 	// Dibujar una figura
 	private Point startPoint;
@@ -57,9 +57,6 @@ public class PaintPane extends BorderPane {
 
 	// Boton clickeado
 	private FigureButton clickedButton;
-
-	private Label borderLabel = new Label("Borde");
-	private Label fillLabel = new Label("Relleno");
 
 
 	public PaintPane(CanvasState canvasState, StatusPane statusPane) {
@@ -80,6 +77,7 @@ public class PaintPane extends BorderPane {
 		buttonsBox.setStyle("-fx-background-color: #999");
 		buttonsBox.setPrefWidth(100);
 		gc.setLineWidth(1);
+		canvas.setOnMousePressed(event -> startPoint = new Point(event.getX(), event.getY()));
 
 		Label borderWidthText = new Label("Borde");
 		borderWidthSlider.setShowTickLabels(true);
@@ -87,6 +85,13 @@ public class PaintPane extends BorderPane {
 		buttonsBox.getChildren().add(borderWidthText);
 		buttonsBox.getChildren().add(borderWidthSlider);
 		buttonsBox.getChildren().add(borderColorPicker);
+
+		Label fillText = new Label("Relleno");
+		buttonsBox.getChildren().add(fillText);
+		buttonsBox.getChildren().add(fillColorPicker);
+
+
+
 
 		EventHandler<MouseEvent> sliderEvent = mouseEvent -> {
 			if(canvasState.containsSelectedFigure(selectedFigure)) {
@@ -113,7 +118,7 @@ public class PaintPane extends BorderPane {
 			if(!selectionButton.isSelected()) { // boton de alguna figura
 				clickedButton = (FigureButton) tools.getSelectedToggle();
 				if (clickedButton != null) {
-					newFigure = clickedButton.createFigure(startPoint, endPoint, (Color)innerColorPicker.getValue(), (Color)borderColorPicker.getValue(), borderWidthSlider.getValue());
+					newFigure = clickedButton.createFigure(startPoint, endPoint, (Color)fillColorPicker.getValue(), (Color)borderColorPicker.getValue(), borderWidthSlider.getValue());
 					newFigure.draw(gc);
 					if (newFigure != null)  canvasState.addFigure(newFigure);
 				}
