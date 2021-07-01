@@ -45,6 +45,21 @@ public class CanvasState {
         return selectedFigures;
     }
 
+//    NO REPITO CODIGO O PODRIA USAR EL OTRO GET??
+//    lo tengo que agregar seguramente al set para mas adelante pero como
+//    hago para darme cuenta si o si que el set es de un solo elemento?
+//    creo que asi, si queda de un solo elem pero chequear
+    public Figure getTheSelectedFigure(Point point){
+        deselectAllFigures();
+        for (Figure figure : list){
+            if (figure.containsPoint(point)) {
+                addSelectedFigure(figure);
+                return figure;
+            }
+        }
+        return null;
+    }
+
     private void deselectAllFigures(){
         selectedFigures.clear();
     }

@@ -15,6 +15,8 @@ import paint.backend.button.*;
 import paint.backend.model.Figure;
 import paint.backend.model.Point;
 
+import java.util.Set;
+
 public class PaintPane extends BorderPane {
 
 	private static final Color DEFAULT_BORDER_COLOR = Color.BLACK;
@@ -121,6 +123,23 @@ public class PaintPane extends BorderPane {
 					newFigure = clickedButton.createFigure(startPoint, endPoint, borderColorPicker.getValue(), borderWidthSlider.getValue(), fillColorPicker.getValue());
 					newFigure.draw(gc);
 					canvasState.addFigure(newFigure);
+				}
+			}else{ // estoy con el boton de seleccionar
+				StringBuilder description = new StringBuilder("Se seleccionó: ");
+				if (startPoint.equals(endPoint)){ // un solo click
+					Figure last = canvasState.getTheSelectedFigure(endPoint);
+					if (last != null){ // si se selecciono una figura
+						description.append(last);
+					}
+				}else { // seleccion multiple
+					Set<Figure> allSelectedFigures = canvasState.getSelectedFigures(startPoint, endPoint);
+	//				es probable que este tipo de for-each lo tengamos en
+	//				algun metodo private por aca
+					for (Figure figure : allSelectedFigures){
+						description.append(figure);
+						description.append(", ");
+					}
+					description.deleteCharAt(description.length() - 1);
 				}
 			}
 			startPoint = null;
