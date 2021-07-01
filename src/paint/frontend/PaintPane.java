@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import paint.backend.CanvasState;
+import paint.backend.Drawable;
 import paint.backend.button.*;
 import paint.backend.model.Figure;
 import paint.backend.model.Point;
@@ -54,7 +55,7 @@ public class PaintPane extends BorderPane {
 	private Point startPoint;
 
 	// Seleccionar una figura
-	private Figure selectedFigure;
+	private Drawable selectedFigure;
 
 	// StatusBar
 	private StatusPane statusPane;
@@ -115,27 +116,27 @@ public class PaintPane extends BorderPane {
 
 		canvas.setOnMouseReleased(event -> {
 			Point endPoint = new Point(event.getX(), event.getY());
-			Figure newFigure;
+			Drawable newFigure;
 			if(startPoint == null){return;}
 			if(!selectionButton.isSelected()) { // boton de alguna figura
 				clickedButton = (FigureButton) tools.getSelectedToggle();
 				if (clickedButton != null) {
-					newFigure = clickedButton.createFigure(startPoint, endPoint, borderColorPicker.getValue(), borderWidthSlider.getValue(), fillColorPicker.getValue());
+					newFigure = clickedButton.createFigure(startPoint, endPoint, fillColorPicker.getValue(), borderColorPicker.getValue(), borderWidthSlider.getValue());
 					newFigure.draw(gc);
 					canvasState.addFigure(newFigure);
 				}
 			}else{ // estoy con el boton de seleccionar
 				StringBuilder description = new StringBuilder("Se seleccionó: ");
 				if (startPoint.equals(endPoint)){ // un solo click
-					Figure last = canvasState.getTheSelectedFigure(endPoint);
+					Drawable last = canvasState.getTheSelectedFigure(endPoint);
 					if (last != null){ // si se selecciono una figura
 						description.append(last);
 					}
 				}else { // seleccion multiple
-					Set<Figure> allSelectedFigures = canvasState.getSelectedFigures(startPoint, endPoint);
+					Set<Drawable> allSelectedFigures = canvasState.getSelectedFigures(startPoint, endPoint);
 	//				es probable que este tipo de for-each lo tengamos en
 	//				algun metodo private por aca
-					for (Figure figure : allSelectedFigures){
+					for (Drawable figure : allSelectedFigures){
 						description.append(figure);
 						description.append(", ");
 					}
@@ -150,7 +151,7 @@ public class PaintPane extends BorderPane {
 			Point eventPoint = new Point(event.getX(), event.getY());
 			boolean found = false;
 			StringBuilder label = new StringBuilder();
-			for(Figure figure : canvasState.figures()) {
+			for(Drawable figure : canvasState.figures()) {
 				if(figure.containsPoint(eventPoint)) {
 					found = true;
 					label.append(figure.toString());
@@ -169,7 +170,7 @@ public class PaintPane extends BorderPane {
 				Point eventPoint = new Point(event.getX(), event.getY());
 				boolean found = false;
 				StringBuilder label = new StringBuilder("Se seleccionó: ");
-				for (Figure figure : canvasState.figures()) {
+				for (Drawable figure : canvasState.figures()) {
 					if(figure.containsPoint(eventPoint)) {
 						found = true;
 						selectedFigure = figure;
@@ -203,15 +204,19 @@ public class PaintPane extends BorderPane {
 
 	void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		for(Figure figure : canvasState.figures()) {
+		for(Drawable figure : canvasState.figures()) {
 			if(canvasState.containsSelectedFigure(figure)) {
 				gc.setStroke(SELECTED_COLOR);
+
 			} else {
 				gc.setStroke(DEFAULT_BORDER_COLOR);
+//				figure.setBorderColor(DEFAULT_BORDER_COLOR);
 			}
 			gc.setLineWidth(figure.getBorderWidth());
+//			figure.setBorderWidth(figure.getBorderWidth());
 			if(figure.isComplex()) {
 				gc.setFill(DEFAULT_FILL_COLOR); //ARREGLAR -> hay que ver como acceder al fillColor
+//				figure.setFillColor(DEFAULT_FILL_COLOR);
 			}
 			figure.draw(gc);
 		}

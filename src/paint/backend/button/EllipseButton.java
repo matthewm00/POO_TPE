@@ -1,5 +1,6 @@
 package paint.backend.button;
 
+import paint.backend.Drawable;
 import paint.backend.model.Ellipse;
 import paint.backend.model.Figure;
 import paint.backend.model.Point;
@@ -12,7 +13,7 @@ public class EllipseButton extends FigureButton{
     }
 
     @Override
-    public Figure createFigure(Point start, Point end, Color borderColor, double borderWidth, Color fillColor) {
-        return new Ellipse(start, end, borderColor, borderWidth, fillColor);
+    public Drawable createFigure(Point start, Point end, Color fillColor, Color borderColor, double borderWidth) {
+        return new Ellipse(start, end, fillColor, borderColor, borderWidth);
     }
 }

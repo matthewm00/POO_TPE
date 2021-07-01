@@ -6,36 +6,39 @@ import javafx.scene.paint.Color;
 import java.util.Arrays;
 import java.util.List;
 
-public class Line extends SimpleFigure{
+public class Line extends Figure{
 
-    private Point startPoint, endPoint;
-
-    public Line(Point startPoint, Point endPoint, Color borderColor, double borderWidth) {
-        super(startPoint, endPoint, borderColor, borderWidth);
+    public Line(Point startPoint, Point endPoint, Color fillColor, Color borderColor, double borderWidth) {
+        super(startPoint, endPoint,fillColor, borderColor, borderWidth);
     }
 
     public Point getStartPoint() {
-        return startPoint;
+        return start;
     }
 
     public Point getEndPoint() {
-        return endPoint;
+        return end;
     }
 
     public boolean containsPoint(Point p) {
-        return Double.compare(startPoint.distanceToPoint(p) + p.distanceToPoint(endPoint), startPoint.distanceToPoint(endPoint)) == 1;
+        return Double.compare(start.distanceToPoint(p) + p.distanceToPoint(end), start.distanceToPoint(end)) == 1;
     }
 
     public List<Point> getPoints(){
-        return Arrays.asList(startPoint, endPoint);
+        return Arrays.asList(start, end);
     }
 
     public void draw(GraphicsContext gc) {
-        gc.strokeLine(startPoint.getX(), startPoint.getY(), endPoint.getX(), endPoint.getY());
+        gc.strokeLine(start.getX(), start.getY(), end.getX(), end.getY());
+    }
+
+    @Override
+    public boolean isComplex() {
+        return false;
     }
 
     public String source() {
-        return String.format("Linea [ Desde: %s , Hasta: %s ]", startPoint, endPoint);
+        return String.format("Linea [ Desde: %s , Hasta: %s ]", start, end);
     }
 
 }

@@ -2,43 +2,23 @@ package paint.backend.model;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import paint.backend.Drawable;
+
 import java.util.Objects;
 
-public abstract class Figure implements Model {
+public abstract class Figure implements Drawable {
 
-    private Color borderColor;
-    private double borderWidth;
     protected Point start, end;
     protected DrawData drawData;
 
 
-    public Figure(Point start, Point end, Color borderColor, double borderWidth) {
+    public Figure(Point start, Point end, Color fillColor, Color borderColor, double borderWidth) {
         this.start = start;
         this.end = end;
         this.drawData = new DrawData(fillColor, borderColor, borderWidth);
     }
 
-    public abstract void draw(GraphicsContext gc);
-
-    public abstract boolean isComplex();
-
-    public abstract boolean containsPoint(Point p);
-
-    public void setBorderColor(Color borderColor) {
-        this.borderColor = borderColor;
-    }
-
-    public void setBorderWidth(double borderWidth) {
-        this.borderWidth = borderWidth;
-    }
-
-    public Color getBorderColor() {
-        return borderColor;
-    }
-
-    public double getBorderWidth() {
-        return borderWidth;
-    }
+    public boolean isComplex(){return true;} // tiene innerColor
 
     @Override
     public String toString() {
@@ -62,5 +42,10 @@ public abstract class Figure implements Model {
     @Override
     public int hashCode() {
         return Objects.hash(getPoints());
+    }
+
+    @Override
+    public DrawData getDrawData() {
+        return drawData;
     }
 }

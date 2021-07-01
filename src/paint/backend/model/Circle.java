@@ -4,8 +4,8 @@ import javafx.scene.paint.Color;
 
 public class Circle extends Ellipse{
 
-    public Circle(Point centerPoint, Point radiusPoint, Color borderColor, double borderWidth, Color fillColor) {
-        super(centerPoint, radiusPoint, borderColor, borderWidth, fillColor);
+    public Circle(Point centerPoint, Point radiusPoint, Color fillColor, Color borderColor, double borderWidth) {
+        super(centerPoint, radiusPoint, fillColor, borderColor, borderWidth);
     }
 
     @Override

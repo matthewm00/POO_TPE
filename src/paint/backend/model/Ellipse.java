@@ -3,16 +3,18 @@ package paint.backend.model;
 import javafx.scene.canvas.GraphicsContext;
 
 import javafx.scene.paint.Color;
+import paint.backend.Drawable;
+
 import java.util.Arrays;
 import java.util.List;
 
-public class Ellipse extends ComplexFigure{
+public class Ellipse extends Figure{
 
     protected Point centerPoint;
     protected double radiusY, radiusX;
 
-    public Ellipse(Point topLeft, Point bottomRight, Color borderColor, double borderWidth, Color fillColor) {
-        super(topLeft, bottomRight, borderColor, borderWidth, fillColor);
+    public Ellipse(Point topLeft, Point bottomRight, Color fillColor, Color borderColor, double borderWidth) {
+        super(topLeft, bottomRight,fillColor, borderColor, borderWidth);
         init(topLeft, bottomRight);
     }
 

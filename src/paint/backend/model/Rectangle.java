@@ -6,10 +6,10 @@ import javafx.scene.paint.Color;
 import java.util.Arrays;
 import java.util.List;
 
-public class Rectangle extends ComplexFigure {
+public class Rectangle extends Figure {
 
-    public Rectangle(Point topLeft, Point bottomRight, Color borderColor, double borderWidth, Color fillColor) {
-        super(topLeft, bottomRight, borderColor, borderWidth, fillColor);
+    public Rectangle(Point topLeft, Point bottomRight, Color fillColor, Color borderColor, double borderWidth) {
+        super(topLeft, bottomRight, fillColor, borderColor, borderWidth);
         validatePoints(topLeft, bottomRight);
         init(topLeft, bottomRight);
     }
@@ -45,6 +45,11 @@ public class Rectangle extends ComplexFigure {
     @Override
     public List<Point> getPoints() {
             return Arrays.asList(start, end);
+    }
+
+    @Override
+    public DrawData getDrawData() {
+        return drawData;
     }
 
     @Override

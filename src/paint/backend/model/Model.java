@@ -13,4 +13,8 @@ public interface Model {
             point.movePoint(deltaX, deltaY);
         }
     }
+
+    boolean containsPoint(Point p);
+
+    boolean isComplex();
 }

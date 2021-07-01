@@ -7,16 +7,16 @@ import java.util.*;
 
 public class CanvasState {
 
-    private final List<Figure> list = new ArrayList<>();
-    private final Set<Figure> selectedFigures = new HashSet<>();
+    private final List<Drawable> list = new ArrayList<>();
+    private final Set<Drawable> selectedFigures = new HashSet<>();
 
-    public void addFigure(Figure figure) {
+    public void addFigure(Drawable figure) {
         list.add(figure);
     }
-    public void addSelectedFigure(Figure figure){
+    public void addSelectedFigure(Drawable figure){
         selectedFigures.add(figure);
     }
-    public Iterable<Figure> figures() {
+    public Iterable<Drawable> figures() {
         return list;
     }
 
@@ -28,11 +28,11 @@ public class CanvasState {
         selectedFigures.forEach(figure -> figure.move(deltaX, deltaY));
     }
 
-    public Set<Figure> getSelectedFigures(Point start, Point end){
+    public Set<Drawable> getSelectedFigures(Point start, Point end){
         deselectAllFigures();
         ImaginaryRectangle area = new ImaginaryRectangle(start, end);// imaginario
         boolean ok = true;
-        for (Figure figure : list){ // recorro todas las figuras
+        for (Drawable figure : list){ // recorro todas las figuras
             for (Point point : figure.getPoints()) {
 //                si en area no tengo todos los puntos de la figure
                 if (!area.containsPoint(point)){ // paso al siguiente
@@ -49,9 +49,9 @@ public class CanvasState {
 //    lo tengo que agregar seguramente al set para mas adelante pero como
 //    hago para darme cuenta si o si que el set es de un solo elemento?
 //    creo que asi, si queda de un solo elem pero chequear
-    public Figure getTheSelectedFigure(Point point){
+    public Drawable getTheSelectedFigure(Point point){
         deselectAllFigures();
-        for (Figure figure : list){
+        for (Drawable figure : list){
             if (figure.containsPoint(point)) {
                 addSelectedFigure(figure);
                 return figure;
@@ -64,12 +64,12 @@ public class CanvasState {
         selectedFigures.clear();
     }
 
-    public boolean containsSelectedFigure(Figure figure) {
+    public boolean containsSelectedFigure(Drawable figure) {
         return selectedFigures.contains(figure);
     }
 
     public void setBorderWidth(double width) {
-        for(Figure figure: selectedFigures) {
+        for(Drawable figure: selectedFigures) {
             figure.setBorderWidth(width);
         }
     }
