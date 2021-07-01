@@ -19,6 +19,7 @@ public class PaintPane extends BorderPane {
 
 	private static final Color DEFAULT_BORDER_COLOR = Color.BLACK;
 	private static final Color DEFAULT_FILL_COLOR = Color.YELLOW;
+	private static final Color SELECTED_COLOR = Color.RED;
 	private	static final double MAX_VALUE_SLIDER = 50;
 	private static final double MIN_VALUE_SLIDER = 1;
 	private static final double INITIAL_VALUE_SLIDER = 0;
@@ -43,8 +44,9 @@ public class PaintPane extends BorderPane {
 	private final ColorPicker borderColorPicker = new ColorPicker(DEFAULT_BORDER_COLOR);
 	private final ColorPicker fillColorPicker = new ColorPicker(DEFAULT_FILL_COLOR);
 
-
 	private final ToggleButton deleteButton = new ToggleButton("Borrar");
+	private final ToggleButton backButton = new ToggleButton("Al Fondo");
+	private final ToggleButton frontButton = new ToggleButton("Al Frente");
 
 	// Dibujar una figura
 	private Point startPoint;
@@ -62,8 +64,7 @@ public class PaintPane extends BorderPane {
 	public PaintPane(CanvasState canvasState, StatusPane statusPane) {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
-
-		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, ellipseButton, squareButton, lineButton, deleteButton};
+		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, ellipseButton, squareButton, lineButton, deleteButton, backButton, frontButton};
 		ToggleGroup tools = new ToggleGroup();
 		for (ToggleButton tool : toolsArr) {
 			tool.setMinWidth(90);
@@ -77,7 +78,6 @@ public class PaintPane extends BorderPane {
 		buttonsBox.setStyle("-fx-background-color: #999");
 		buttonsBox.setPrefWidth(100);
 		gc.setLineWidth(1);
-		canvas.setOnMousePressed(event -> startPoint = new Point(event.getX(), event.getY()));
 
 		Label borderWidthText = new Label("Borde");
 		borderWidthSlider.setShowTickLabels(true);
@@ -90,8 +90,7 @@ public class PaintPane extends BorderPane {
 		buttonsBox.getChildren().add(fillText);
 		buttonsBox.getChildren().add(fillColorPicker);
 
-
-
+		canvas.setOnMousePressed(event -> startPoint = new Point(event.getX(), event.getY()));
 
 		EventHandler<MouseEvent> sliderEvent = mouseEvent -> {
 			if(canvasState.containsSelectedFigure(selectedFigure)) {
@@ -102,10 +101,11 @@ public class PaintPane extends BorderPane {
 		borderWidthSlider.setOnMouseDragged(sliderEvent);
 		borderWidthSlider.setOnMouseClicked(sliderEvent);
 
+		//borderColorPicker.setOnAction(event -> selectedFigure.setBorderColor(borderColorPicker.getValue()));
+
 		deleteButton.setOnAction(event -> {
 
 		});
-
 
 		canvas.setOnMousePressed(event -> {
 			startPoint = new Point(event.getX(), event.getY());
@@ -113,14 +113,14 @@ public class PaintPane extends BorderPane {
 
 		canvas.setOnMouseReleased(event -> {
 			Point endPoint = new Point(event.getX(), event.getY());
-			if(startPoint == null) return ;
-			Figure newFigure = null;
+			Figure newFigure;
+			if(startPoint == null){return;}
 			if(!selectionButton.isSelected()) { // boton de alguna figura
 				clickedButton = (FigureButton) tools.getSelectedToggle();
 				if (clickedButton != null) {
-					newFigure = clickedButton.createFigure(startPoint, endPoint, (Color)borderColorPicker.getValue(), borderWidthSlider.getValue(), (Color)fillColorPicker.getValue());
+					newFigure = clickedButton.createFigure(startPoint, endPoint, borderColorPicker.getValue(), borderWidthSlider.getValue(), fillColorPicker.getValue());
 					newFigure.draw(gc);
-					if (newFigure != null)  canvasState.addFigure(newFigure);
+					canvasState.addFigure(newFigure);
 				}
 			}
 			startPoint = null;
@@ -168,14 +168,12 @@ public class PaintPane extends BorderPane {
 		});
 
 		canvas.setOnMouseDragged(event -> {
-			if(selectionButton.isSelected()) {
+			if(selectionButton.isSelected() && selectedFigure != null) {
 				Point eventPoint = new Point(event.getX(), event.getY());
 				double diffX = (eventPoint.getX() - startPoint.getX());
 				double diffY = (eventPoint.getY() - startPoint.getY());
 				startPoint = eventPoint;
-				if(selectedFigure.containsPoint(eventPoint)) {
-					selectedFigure.move(diffX, diffY);
-				}
+				selectedFigure.move(diffX, diffY);
 				redrawCanvas();
 			}
 		});
@@ -187,12 +185,15 @@ public class PaintPane extends BorderPane {
 	void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		for(Figure figure : canvasState.figures()) {
-			if(figure == selectedFigure) {
-				gc.setStroke(Color.RED);
+			if(canvasState.containsSelectedFigure(figure)) {
+				gc.setStroke(SELECTED_COLOR);
 			} else {
-				gc.setStroke(Color.BLACK);
+				gc.setStroke(DEFAULT_BORDER_COLOR);
 			}
-			gc.setFill(Color.YELLOW);
+			gc.setLineWidth(figure.getBorderWidth());
+			if(figure.isComplex()) {
+				gc.setFill(DEFAULT_FILL_COLOR); //ARREGLAR -> hay que ver como acceder al fillColor
+			}
 			figure.draw(gc);
 		}
 	}

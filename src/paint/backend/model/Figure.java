@@ -41,8 +41,8 @@ public abstract class Figure implements Model {
     }
 
     @Override
-    public String source() {
-        return toString();
+    public String toString() {
+        return source();
     }
 
     public void validatePoints(Point topLeft, Point bottomRight) {

@@ -3,10 +3,7 @@ package paint.backend;
 import paint.backend.model.Figure;
 import paint.backend.model.Point;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class CanvasState {
 
@@ -20,7 +17,7 @@ public class CanvasState {
         selectedFigures.add(figure);
     }
     public Iterable<Figure> figures() {
-        return new ArrayList<>(list);
+        return list;
     }
 
 //    public void removeSelectedFigures(){
@@ -62,6 +59,7 @@ public class CanvasState {
         }
     }
 
+    //VER
     private class ImaginaryRectangle {
         Point start;
         Point end;
@@ -75,8 +73,6 @@ public class CanvasState {
             return p.getX() > start.getX() && p.getX() < start.getX() &&
                     p.getY() > end.getY() && p.getY() < end.getY();
         }
-
-
     }
 
 }
