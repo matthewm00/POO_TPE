@@ -4,7 +4,7 @@ import paint.backend.model.Figure;
 import paint.backend.model.Point;
 import paint.backend.model.Rectangle;
 
-import java.awt.*;
+import javafx.scene.paint.Color;
 
 public class RectangleButton extends FigureButton{
     public RectangleButton(String text) {

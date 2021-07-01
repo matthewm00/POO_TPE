@@ -1,6 +1,8 @@
 package paint.backend.model;
 
-import java.awt.*;
+import javafx.scene.canvas.GraphicsContext;
+
+import javafx.scene.paint.Color;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,6 +14,14 @@ public class Ellipse extends ComplexFigure{
     public Ellipse(Point topLeft, Point bottomRight, Color innerColor, Color borderColor, double limitWidth) {
         super(topLeft, bottomRight, innerColor, borderColor, limitWidth);
         init(topLeft, bottomRight);
+    }
+
+    public double getHeight(){
+        return 2 * radiusY;
+    }
+
+    public double getWidth(){
+        return 2 * radiusX;
     }
 
     protected void init(Point topLeft, Point bottomRight){
@@ -36,5 +46,11 @@ public class Ellipse extends ComplexFigure{
     @Override
     public boolean containsPoint(Point p) {
         return Math.pow((centerPoint.getX() - p.getX())/radiusX, 2) + Math.pow((centerPoint.getY() - p.getY())/radiusY, 2) <= 1;
+    }
+
+    @Override
+    public void draw(GraphicsContext gc) {
+        gc.fillOval(start.getX(), start.getY(), getWidth(), getHeight());
+        gc.strokeOval(start.getX(), start.getY(), getWidth(), getHeight());
     }
 }

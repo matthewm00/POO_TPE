@@ -3,8 +3,7 @@ package paint.backend.button;
 import paint.backend.model.Circle;
 import paint.backend.model.Figure;
 import paint.backend.model.Point;
-
-import java.awt.*;
+import javafx.scene.paint.Color;
 
 public class CircleButton extends FigureButton{
     public CircleButton(String text) {

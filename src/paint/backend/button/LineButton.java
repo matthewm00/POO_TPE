@@ -4,7 +4,7 @@ import paint.backend.model.Figure;
 import paint.backend.model.Line;
 import paint.backend.model.Point;
 
-import java.awt.*;
+import javafx.scene.paint.Color;
 
 public class LineButton extends FigureButton{
     public LineButton(String text) {

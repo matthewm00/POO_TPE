@@ -1,6 +1,8 @@
 package paint.backend.model;
 
-import java.awt.*;
+import javafx.scene.canvas.GraphicsContext;
+
+import javafx.scene.paint.Color;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,6 +11,11 @@ public class Line extends Figure{
     public Line(Point startPoint, Point endPoint, Color borderColor, double limitWidth) {
         super(startPoint, endPoint, borderColor, limitWidth);
 
+    }
+
+    @Override
+    public void draw(GraphicsContext gc) {
+        gc.strokeLine(getStartPoint().getX(), getStartPoint().getY(), getEndPoint().getX(), getEndPoint().getY());
     }
 
     public Point getStartPoint() {

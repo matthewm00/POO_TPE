@@ -1,6 +1,6 @@
 package paint.frontend;
 
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import paint.backend.CanvasState;
 import paint.backend.button.*;
 import paint.backend.model.Circle;
@@ -11,8 +11,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -31,8 +29,6 @@ public class PaintPane extends BorderPane {
 	// Canvas y relacionados
 	Canvas canvas = new Canvas(800, 600);
 	GraphicsContext gc = canvas.getGraphicsContext2D();
-	Color lineColor = Color.BLACK;
-	Color fillColor = Color.YELLOW;
 
 	// Botones Barra Izquierda
 	private ToggleButton selectionButton = new ToggleButton("Seleccionar");
@@ -56,6 +52,13 @@ public class PaintPane extends BorderPane {
 
 	// Boton clickeado
 	private FigureButton clickedButton;
+
+	private Label borderLabel = new Label("Borde");
+	private Label fillLabel = new Label("Relleno");
+
+	private final ColorPicker borderColorPicker = new ColorPicker(DEFAULT_BORDER_COLOR);
+	private final ColorPicker innerColorPicker = new ColorPicker(DEFAULT_INNER_COLOR);
+	private final Slider borderWidthSlider = new Slider(MIN_VALUE_SLIDER, MAX_VALUE_SLIDER, INITIAL_VALUE_SLIDER);
 
 	public PaintPane(CanvasState canvasState, StatusPane statusPane) {
 		this.canvasState = canvasState;
@@ -92,7 +95,8 @@ public class PaintPane extends BorderPane {
 			if(!selectionButton.isSelected()) { // boton de alguna figura
 				clickedButton = (FigureButton) tools.getSelectedToggle();
 				if (clickedButton != null) {
-//					newFigure = clickedButton.createFigure(startPoint, endPoint);// Color innerColor, Color borderColor, double limitWidth
+					newFigure = clickedButton.createFigure(startPoint, endPoint, (Color)innerColorPicker.getValue(), (Color)borderColorPicker.getValue(), borderWidthSlider.getValue());
+					newFigure.draw(gc);
 					if (newFigure != null)  canvasState.addFigure(newFigure);
 				}
 			}
@@ -162,9 +166,9 @@ public class PaintPane extends BorderPane {
 			if(figure == selectedFigure) {
 				gc.setStroke(Color.RED);
 			} else {
-				gc.setStroke(lineColor);
+				gc.setStroke(Color.BLACK);
 			}
-			gc.setFill(fillColor);
+			gc.setFill(Color.YELLOW);
 //			if(figure instanceof Rectangle) {
 //				Rectangle rectangle = (Rectangle) figure;
 //				gc.fillRect(rectangle.getTopLeft().getX(), rectangle.getTopLeft().getY(),

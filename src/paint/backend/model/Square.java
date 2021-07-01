@@ -1,6 +1,7 @@
 package paint.backend.model;
 
-import java.awt.*;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class Square extends Rectangle{
 
@@ -17,5 +18,11 @@ public class Square extends Rectangle{
     @Override
     public String source() {
         return String.format("Cuadrado [ %s , %s ]", getTopLeft(), getBottomRight());
+    }
+
+    @Override
+    public void draw(GraphicsContext gc) {
+        gc.fillRect(getTopLeft().getX(), getTopLeft().getY(), getWidth(), getHeight());
+        gc.strokeRect(getTopLeft().getX(), getTopLeft().getY(), getWidth(), getHeight());
     }
 }

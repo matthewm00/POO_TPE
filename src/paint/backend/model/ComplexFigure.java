@@ -1,6 +1,6 @@
 package paint.backend.model;
 
-import java.awt.*;
+import javafx.scene.paint.Color;
 
 public abstract class ComplexFigure extends Figure{
     private Color innerColor;

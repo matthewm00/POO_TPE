@@ -1,6 +1,8 @@
 package paint.backend.model;
 
-import java.awt.*;
+import javafx.scene.canvas.GraphicsContext;
+
+import javafx.scene.paint.Color;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,6 +27,16 @@ public class Rectangle extends ComplexFigure {
         return end;
     }
 
+    public double getHeight()
+    {
+        return Math.abs(start.differenceY(end));
+    }
+
+    public double getWidth()
+    {
+        return Math.abs(start.differenceX(end));
+    }
+
     @Override
     public String source() {
         return String.format("Rectángulo [ %s , %s ]", start, end);
@@ -35,6 +47,9 @@ public class Rectangle extends ComplexFigure {
             return Arrays.asList(start, end);
     }
 
-
-
+    @Override
+    public void draw(GraphicsContext gc) {
+        gc.fillRect(getTopLeft().getX(), getTopLeft().getY(), getWidth(),getHeight());
+        gc.strokeRect(getTopLeft().getX(), getTopLeft().getY(), getWidth(), getHeight());
+    }
 }

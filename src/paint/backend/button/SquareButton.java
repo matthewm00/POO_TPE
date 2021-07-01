@@ -4,7 +4,7 @@ import paint.backend.model.Figure;
 import paint.backend.model.Point;
 import paint.backend.model.Square;
 
-import java.awt.*;
+import javafx.scene.paint.Color;
 
 public class SquareButton extends FigureButton{
     public SquareButton(String text) {

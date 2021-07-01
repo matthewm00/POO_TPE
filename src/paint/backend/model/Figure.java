@@ -1,9 +1,10 @@
 package paint.backend.model;
 
-import java.awt.*;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import java.util.Objects;
 
-public abstract class Figure extends SimpleFigure implements Model{
+public abstract class Figure extends SimpleFigure implements Model {
 
     private Color borderColor;
     private double limitWidth;
@@ -24,6 +25,8 @@ public abstract class Figure extends SimpleFigure implements Model{
         this.limitWidth = limitWidth;
     }
 
+    public abstract void draw(GraphicsContext gc);
+
     public Color getBorderColor() {
         return borderColor;
     }
@@ -31,6 +34,8 @@ public abstract class Figure extends SimpleFigure implements Model{
     public double getLimitWidth() {
         return limitWidth;
     }
+
+
 
     @Override
     public String toString(){
