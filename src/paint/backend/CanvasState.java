@@ -59,6 +59,10 @@ public class CanvasState {
         return null;
     }
 
+    public boolean hasSelectedFigures(){
+        return !selectedFigures.isEmpty();
+    }
+
     private void deselectAllFigures(){
         selectedFigures.clear();
     }
