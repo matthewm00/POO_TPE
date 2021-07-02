@@ -8,8 +8,14 @@ import java.util.List;
 
 public class Line extends Figure{
 
+    private double gradient;
+    private static final int EPSILON = 3;
+
     public Line(Point startPoint, Point endPoint, Color fillColor, Color borderColor, double borderWidth) {
         super(startPoint, endPoint,fillColor, borderColor, borderWidth);
+        start = start.compareTo(endPoint) <= 0 ? start : end ;
+        end = start.compareTo(endPoint) <= 0 ? end : start ;
+        gradient = endPoint.differenceY(start) / endPoint.differenceX(start);
     }
 
     public Point getStartPoint() {
@@ -20,8 +26,14 @@ public class Line extends Figure{
         return end;
     }
 
+    @Override
     public boolean containsPoint(Point p) {
-        return Double.compare(start.distanceToPoint(p) + p.distanceToPoint(end), start.distanceToPoint(end)) == 1;
+        if( (p.getX() > start.getX() && p.getX() < end.getX()) ) {
+            double aux = start.getY() - gradient * start.getX();
+            double cmp = p.getY() - aux - gradient * p.getX();
+            return cmp > -EPSILON && cmp < EPSILON;
+        }
+        return false;
     }
 
     public List<Point> getPoints(){

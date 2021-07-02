@@ -1,6 +1,6 @@
 package paint.backend.model;
 
-public class Point {
+public class Point implements Comparable<Point>{
 
     private double x, y;
 
@@ -47,4 +47,12 @@ public class Point {
         return String.format("{%.2f , %.2f}", x, y);
     }
 
+    @Override
+    public int compareTo(Point o) {
+        int comp = Double.compare( getX(), o.getX());
+        if (comp == 0){
+            comp = Double.compare( getY(), o.getY());
+        }
+        return comp;
+    }
 }
