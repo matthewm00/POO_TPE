@@ -11,6 +11,8 @@ public interface Drawable extends Model {
 
     void draw(GraphicsContext gc);
 
+    boolean isFillable();
+
     default void setBorderColor(Color borderColor) {
         getDrawData().setBorderColor(borderColor);
     }

@@ -1,9 +1,7 @@
 package paint.backend.model;
 
 import javafx.scene.canvas.GraphicsContext;
-
 import javafx.scene.paint.Color;
-import paint.backend.Drawable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +14,11 @@ public class Ellipse extends Figure{
     public Ellipse(Point topLeft, Point bottomRight, Color fillColor, Color borderColor, double borderWidth) {
         super(topLeft, bottomRight,fillColor, borderColor, borderWidth);
         init(topLeft, bottomRight);
+    }
+
+    @Override
+    public boolean isFillable() {
+        return true;
     }
 
     public double getHeight(){

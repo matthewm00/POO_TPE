@@ -1,6 +1,5 @@
 package paint.backend.model;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import paint.backend.Drawable;
 
@@ -17,8 +16,6 @@ public abstract class Figure implements Drawable {
         this.end = end;
         this.drawData = new DrawData(fillColor, borderColor, borderWidth);
     }
-
-    public boolean isComplex(){return true;} // tiene innerColor
 
     @Override
     public String toString() {

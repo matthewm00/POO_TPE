@@ -63,4 +63,9 @@ public class Rectangle extends Figure {
         return p.getX() > getTopLeft().getX() && p.getX() < getBottomRight().getX() &&
                 p.getY() > getTopLeft().getY() && p.getY() < getBottomRight().getY();
     }
+
+    @Override
+    public boolean isFillable() {
+        return true;
+    }
 }

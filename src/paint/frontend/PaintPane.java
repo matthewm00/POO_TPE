@@ -13,7 +13,6 @@ import javafx.scene.paint.Color;
 import paint.backend.CanvasState;
 import paint.backend.Drawable;
 import paint.backend.button.*;
-import paint.backend.model.Figure;
 import paint.backend.model.Point;
 
 import java.util.Set;
@@ -236,19 +235,16 @@ public class PaintPane extends BorderPane {
 	void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		for(Drawable figure : canvasState.figures()) {
-			figure.draw(gc);
 			if(canvasState.containsSelectedFigure(figure)) {
 				gc.setStroke(SELECTED_COLOR);
 			} else {
 				gc.setStroke(DEFAULT_BORDER_COLOR);
-//				figure.setBorderColor(DEFAULT_BORDER_COLOR);
 			}
 			gc.setLineWidth(figure.getBorderWidth());
-//			figure.setBorderWidth(figure.getBorderWidth());
-			if(figure.isComplex()) {
-				gc.setFill(DEFAULT_FILL_COLOR); //ARREGLAR -> hay que ver como acceder al fillColor
-//				figure.setFillColor(DEFAULT_FILL_COLOR);
+			if(figure.isFillable()) {
+				gc.setFill(figure.getFillColor());
 			}
+			figure.draw(gc);
 		}
 	}
 }

@@ -45,7 +45,7 @@ public class Line extends Figure{
     }
 
     @Override
-    public boolean isComplex() {
+    public boolean isFillable() {
         return false;
     }
 

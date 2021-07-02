@@ -16,5 +16,4 @@ public interface Model {
 
     boolean containsPoint(Point p);
 
-    boolean isComplex();
 }
