@@ -191,7 +191,7 @@ public class PaintPane extends BorderPane {
 				if (figure.containsPoint(eventPoint)) {
 					found = true;
 					selectedFigure = figure;
-					label.append(figure);
+					label.append(figure).append(" ");
 				}
 			}
 			if (found) {
