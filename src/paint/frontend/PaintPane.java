@@ -90,10 +90,9 @@ public class PaintPane extends BorderPane {
 			}
 		});
 
-		// el setBorderColor tiene que ser para todas las Selected Figures
 		EventHandler<MouseEvent> sliderEvent = mouseEvent -> {
 			if(canvasState.containsSelectedFigure(selectedFigure)) {
-				canvasState.setBorderWidth(borderWidthSlider.getValue());
+				canvasState.setSelectedBorderWidth(borderWidthSlider.getValue());
 				redrawCanvas();
 			}
 		};
@@ -101,13 +100,11 @@ public class PaintPane extends BorderPane {
 		borderWidthSlider.setOnMouseDragged(sliderEvent);
 		borderWidthSlider.setOnMouseClicked(sliderEvent);
 
-		// el setBorderColor tiene que ser para todas las Selected Figures
-		borderColorPicker.setOnAction(event -> selectedFigure.setBorderColor(borderColorPicker.getValue()));
+		borderColorPicker.setOnAction(event -> canvasState.setSelectedBorderColor(borderColorPicker.getValue()));
 
-		// el setFillColor tiene que ser para todas las Selected Figures
 		fillColorPicker.setOnAction(event -> {
-			if(canvasState.containsSelectedFigure(selectedFigure)) {
-				selectedFigure.setFillColor(fillColorPicker.getValue());
+			if(canvasState.hasSelectedFigures()) {
+				canvasState.setSelectedFillColor(fillColorPicker.getValue());
 				redrawCanvas();
 			}
 		});
@@ -142,46 +139,46 @@ public class PaintPane extends BorderPane {
 		canvas.setOnMousePressed(event -> startPoint = new Point(event.getX(), event.getY()));
 
 		canvas.setOnMouseReleased(event -> {
-					Point endPoint = new Point(event.getX(), event.getY());
-					if (startPoint == null) {
-						return;
+			Point endPoint = new Point(event.getX(), event.getY());
+			if (startPoint == null) {
+				return;
+			}
+			Drawable newFigure;
+			if (!selectionButton.isSelected()) {
+				try {
+					clickedFigureButton = (FigureButton) tools.getSelectedToggle();
+					if (clickedFigureButton != null) {
+						newFigure = clickedFigureButton.createFigure(startPoint, endPoint, fillColorPicker.getValue(), borderColorPicker.getValue(), borderWidthSlider.getValue());
+						newFigure.draw(gc);
+						canvasState.addFigure(newFigure);
 					}
-					Drawable newFigure;
-					if (!selectionButton.isSelected()) {
-						try {
-							clickedFigureButton = (FigureButton) tools.getSelectedToggle();
-							if (clickedFigureButton != null) {
-								newFigure = clickedFigureButton.createFigure(startPoint, endPoint, fillColorPicker.getValue(), borderColorPicker.getValue(), borderWidthSlider.getValue());
-								newFigure.draw(gc);
-								canvasState.addFigure(newFigure);
-							}
-							clickedFigureButton = null;
-						}catch (Exception e){
-							statusPane.updateStatus(e.getMessage()); // tira el error para delete, front y back
-						}
+					clickedFigureButton = null;
+				}catch (Exception e){
+					statusPane.updateStatus(e.getMessage()); // tira el error para delete, front y back
+				}
+			}
+			else if(selectionButton.isSelected()) {
+				// en el boton "Seleccionar"
+				StringBuilder description = new StringBuilder("Se seleccionó: ");
+				if (startPoint.equals(endPoint)) { // una sola figura
+					Drawable figure = canvasState.getTheSelectedFigure(startPoint);
+					if (figure != null) {
+						description.append(figure.toString());
 					}
-					else if(selectionButton.isSelected()) {
-						// en el boton "Seleccionar"
-						StringBuilder description = new StringBuilder("Se seleccionó: ");
-						if (startPoint.equals(endPoint)) { // una sola figura
-							Drawable figure = canvasState.getTheSelectedFigure(startPoint);
-							if (figure != null) {
-								description.append(figure.toString());
-							}
-						} else{ // seleccion multiple
-							Set<Drawable> selectedFigures = canvasState.getSelectedFigures(startPoint, endPoint);
-							for (Drawable figure : selectedFigures) {
-								description.append(figure);
-								description.append(", ");
-							}
-							description.deleteCharAt(description.length() - 2);
-						}
+				} else{ // seleccion multiple
+					Set<Drawable> selectedFigures = canvasState.getSelectedFigures(startPoint, endPoint);
+					for (Drawable figure : selectedFigures) {
+						description.append(figure);
+						description.append(", ");
+					}
+					description.deleteCharAt(description.length() - 2);
+				}
 
-						if(!canvasState.hasSelectedFigures())
-							description = new StringBuilder("Ninguna figura encontrada");
+				if(!canvasState.hasSelectedFigures())
+					description = new StringBuilder("Ninguna figura encontrada");
 
-						statusPane.updateStatus(description.toString());
-					}
+				statusPane.updateStatus(description.toString());
+			}
 			startPoint = null;
 			redrawCanvas();
 		});
@@ -204,26 +201,26 @@ public class PaintPane extends BorderPane {
 			}
 		});
 
-//		canvas.setOnMouseClicked(event -> {
-//			if(selectionButton.isSelected()) {
-//				Point eventPoint = new Point(event.getX(), event.getY());
-//				StringBuilder label = new StringBuilder("Se seleccionó: ");
-//				if (findFigure(eventPoint, label)){
-//					statusPane.updateStatus(label.toString());
-//				} else {
-//					selectedFigure = null;
-//					statusPane.updateStatus("Ninguna figura encontrada");
-//				}
-//				redrawCanvas();
-//			}
-//		});
+/*		canvas.setOnMouseClicked(event -> {
+			if(selectionButton.isSelected()) {
+				Point eventPoint = new Point(event.getX(), event.getY());
+				StringBuilder label = new StringBuilder("Se seleccionó: ");
+				if (findFigure(eventPoint, label)){
+					statusPane.updateStatus(label.toString());
+				} else {
+					selectedFigure = null;
+					statusPane.updateStatus("Ninguna figura encontrada");
+				}
+				redrawCanvas();
+			}
+		});*/
 
 		canvas.setOnMouseDragged(event -> {
-			if(selectionButton.isSelected() && selectedFigure != null) {
+			if(selectionButton.isSelected() && selectedFigure != null) { //canvasState.hasSelectedFigures()
 				Point eventPoint = new Point(event.getX(), event.getY());
 				double diffX = (eventPoint.getX() - startPoint.getX());
 				double diffY = (eventPoint.getY() - startPoint.getY());
-				selectedFigure.move(diffX, diffY);
+				selectedFigure.move(diffX, diffY); //canvasState.moveSelectedFigures(diffX,diffY);
 				startPoint = eventPoint;
 				redrawCanvas();
 			}

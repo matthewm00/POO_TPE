@@ -1,10 +1,11 @@
 package paint.backend;
 
-import paint.backend.model.Figure;
-import paint.backend.model.Line;
+import javafx.scene.paint.Color;
 import paint.backend.model.Point;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Set;
 
 public class CanvasState {
 
@@ -30,6 +31,26 @@ public class CanvasState {
     public void moveSelectedFigures(double deltaX, double deltaY){
         selectedFigures.forEach(figure -> figure.move(deltaX, deltaY));
     }
+
+    public void setSelectedFillColor(Color color){
+        selectedFigures.forEach(figure -> {
+            if (figure.isFillable())
+                figure.setFillColor(figure.getFillColor());
+        });
+    }
+
+    public void setSelectedBorderColor(Color color){
+        selectedFigures.forEach(figure -> {
+            figure.setBorderColor(figure.getBorderColor());
+        });
+    }
+
+    public void setSelectedBorderWidth(double width){
+        selectedFigures.forEach(figure -> {
+            figure.setBorderWidth(figure.getBorderWidth());
+        });
+    }
+
 
     // Seleccion multiple
     public Set<Drawable> getSelectedFigures(Point start, Point end){
@@ -77,15 +98,13 @@ public class CanvasState {
         }
     }
 
-    public void moveToFront()
-    {
+    public void moveToFront() {
         removeSelectedFigures();
         for (Drawable figure : selectedFigures)
             list.addLast(figure); // para invertir el orden de la coleccion
     }
 
-    public void moveToBack()
-    {
+    public void moveToBack() {
         removeSelectedFigures();
         for (Drawable figure : selectedFigures)
             list.addFirst(figure);
