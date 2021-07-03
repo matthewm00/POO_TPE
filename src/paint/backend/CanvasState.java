@@ -58,11 +58,12 @@ public class CanvasState {
         }
         // Seleccion multiple
         else {
-            ImaginaryRectangle area = new ImaginaryRectangle(start, end);
+            if(Double.compare(start.getX(), end.getX()) > 0 || Double.compare(start.getY(), end.getY()) > 0)
+                return;
             boolean ok = true;
             for (Drawable figure : list) {
                 for (Point point : figure.getPoints()) {
-                    if (!area.containsPoint(point)) {
+                    if (!InsideImaginaryRectangle(start, end, point)) {
                         ok = false;
                     }
                 }
@@ -115,18 +116,8 @@ public class CanvasState {
     }
 
 
-    private class ImaginaryRectangle {
-        Point start;
-        Point end;
-
-        public ImaginaryRectangle(Point start, Point end) {
-            this.start = start;
-            this.end = end;
-        }
-
-        public boolean containsPoint(Point p) {
-            return p.getX() > start.getX() && p.getX() < start.getX() &&
-                    p.getY() > end.getY() && p.getY() < end.getY();
-        }
+    private boolean InsideImaginaryRectangle(Point topLeft, Point bottomRight, Point evalPoint) {
+        return evalPoint.getX() >= topLeft.getX() && evalPoint.getX() <= bottomRight.getX() &&
+                    evalPoint.getY() >= topLeft.getY() && evalPoint.getY() <= bottomRight.getY();
     }
 }
