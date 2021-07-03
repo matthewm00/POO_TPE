@@ -58,25 +58,29 @@ public class CanvasState {
         }
         // Seleccion multiple
         else {
-            if(Double.compare(start.getX(), end.getX()) > 0 || Double.compare(start.getY(), end.getY()) > 0)
+            if (Double.compare(start.getX(), end.getX()) > 0 || Double.compare(start.getY(), end.getY()) > 0)
                 return;
-            boolean ok = true;
             for (Drawable figure : list) {
-                for (Point point : figure.getPoints()) {
-                    if (!InsideImaginaryRectangle(start, end, point)) {
+                boolean ok = true;
+                Iterator<Point> points = figure.getPoints().iterator();
+                while (points.hasNext() && ok) {
+                    if (!InsideImaginaryRectangle(start, end, points.next())) {
                         ok = false;
                     }
                 }
                 if (ok) addSelectedFigure(figure);
-                ok = true;
             }
         }
     }
 
     public void setTheSelectedFigure(Point point){
-        for (Drawable figure : list){
+        Iterator<Drawable> it = list.descendingIterator();
+        while (it.hasNext()){
+            Drawable figure = it.next();
             if (figure.containsPoint(point)) {
                 addSelectedFigure(figure);
+                return;
+//                selecciona la figura que esta mas arriba
             }
         }
     }
@@ -88,8 +92,6 @@ public class CanvasState {
     public Drawable getTheSelectedFigure(){
         return selectedFigures.getFirst();
     }
-
-
 
     public boolean hasSelectedFigures(){
         return !selectedFigures.isEmpty();
