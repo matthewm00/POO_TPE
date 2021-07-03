@@ -13,7 +13,7 @@ public class Line extends Figure{
 
     public Line(Point startPoint, Point endPoint, Color fillColor, Color borderColor, double borderWidth) {
         super(startPoint, endPoint,fillColor, borderColor, borderWidth);
-        gradient = endPoint.differenceY(startPoint) / endPoint.differenceX(startPoint);
+        gradient = (end.getY() - start.getY()) / (end.getX() - start.getX());
     }
 
     @Override
@@ -32,7 +32,8 @@ public class Line extends Figure{
 
     @Override
     public boolean containsPoint(Point p) {
-        double aux = p.getY() - end.getY() - gradient * (p.getX() - end.getX());
+        double intercept = start.getY() - gradient * start.getX();
+        double aux = p.getY() - intercept - gradient * p.getX();
         return aux < EPSILON && aux > -EPSILON && Double.compare(start.getX(), p.getX()) <= 0 && Double.compare(p.getX(),end.getX()) <= 0;
     }
 
