@@ -9,7 +9,7 @@ public class Circle extends Ellipse{
     }
 
     @Override
-    public void init(Point centerPoint, Point radiusPoint){
+    public void initPoints(Point centerPoint, Point radiusPoint){
         double radius = centerPoint.distanceToPoint(radiusPoint);
         this.radiusX = radius;
         this.radiusY = radius;

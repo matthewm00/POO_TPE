@@ -13,7 +13,6 @@ public class Ellipse extends Figure{
 
     public Ellipse(Point topLeft, Point bottomRight, Color fillColor, Color borderColor, double borderWidth) {
         super(topLeft, bottomRight,fillColor, borderColor, borderWidth);
-        init(topLeft, bottomRight);
     }
 
     @Override
@@ -29,7 +28,8 @@ public class Ellipse extends Figure{
         return 2 * radiusX;
     }
 
-    protected void init(Point topLeft, Point bottomRight){
+    @Override
+    protected void initPoints(Point topLeft, Point bottomRight){
         validatePoints(topLeft, bottomRight);
         this.start = topLeft;
         this.end = bottomRight;
@@ -40,7 +40,7 @@ public class Ellipse extends Figure{
 
     @Override
     public String source() {
-        return String.format("Elipse [Centro: %s , Radio X: %s , Radio Y: %s]", centerPoint, radiusX, radiusY);
+        return String.format("Elipse [Centro: %s , Radio X: %.2f , Radio Y: %.2f]", centerPoint, radiusX, radiusY);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class Ellipse extends Figure{
 
     @Override
     public boolean containsPoint(Point p) {
-        return Math.pow((centerPoint.getX() - p.getX())/radiusX, 2) + Math.pow((centerPoint.getY() - p.getY())/radiusY, 2) <= 1;
+        return (Math.pow(p.getX() - centerPoint.getX(), 2) / Math.pow(radiusX, 2)) + (Math.pow(p.getY() - centerPoint.getY(), 2) / Math.pow(radiusY,2)) <= 1;
     }
 
     @Override

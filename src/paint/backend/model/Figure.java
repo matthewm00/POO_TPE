@@ -12,9 +12,13 @@ public abstract class Figure implements Drawable {
 
 
     public Figure(Point start, Point end, Color fillColor, Color borderColor, double borderWidth) {
+        initPoints(start, end);
+        this.drawData = new DrawData(fillColor, borderColor, borderWidth);
+    }
+
+    protected void initPoints(Point start, Point end){
         this.start = start;
         this.end = end;
-        this.drawData = new DrawData(fillColor, borderColor, borderWidth);
     }
 
     @Override

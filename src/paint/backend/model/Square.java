@@ -10,9 +10,9 @@ public class Square extends Rectangle{
     }
 
     @Override
-    protected void init(Point topLeft, Point bottomRight) {
+    protected void initPoints(Point topLeft, Point bottomRight) {
         this.start = topLeft;
-        this.end = new Point(bottomRight.getX(), topLeft.getY() + bottomRight.getX() - topLeft.getX());
+        this.end = new Point(bottomRight.getX(), topLeft.getY() + bottomRight.differenceX(topLeft));
     }
 
     @Override

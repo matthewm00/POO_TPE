@@ -3,14 +3,12 @@ package paint.backend;
 import javafx.scene.paint.Color;
 import paint.backend.model.Point;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 
 public class CanvasState {
 
     private final LinkedList<Drawable> list = new LinkedList<>();
-    private final Set<Drawable> selectedFigures = new HashSet<>();
+    private final LinkedList<Drawable> selectedFigures = new LinkedList<>();
 
     public void addFigure(Drawable figure) {
         list.add(figure);
@@ -21,7 +19,7 @@ public class CanvasState {
     }
 
     public Iterable<Drawable> figures() {
-        return list;
+        return new LinkedList<>(list);
     }
 
     public void removeSelectedFigures(){
@@ -35,50 +33,62 @@ public class CanvasState {
     public void setSelectedFillColor(Color color){
         selectedFigures.forEach(figure -> {
             if (figure.isFillable())
-                figure.setFillColor(figure.getFillColor());
+                figure.setFillColor(color);
         });
     }
 
     public void setSelectedBorderColor(Color color){
         selectedFigures.forEach(figure -> {
-            figure.setBorderColor(figure.getBorderColor());
+            figure.setBorderColor(color);
         });
     }
 
     public void setSelectedBorderWidth(double width){
         selectedFigures.forEach(figure -> {
-            figure.setBorderWidth(figure.getBorderWidth());
+            figure.setBorderWidth(width);
         });
     }
 
 
-    // Seleccion multiple
-    public Set<Drawable> getSelectedFigures(Point start, Point end){
+    public void setSelectedFigures(Point start, Point end){
         deselectAllFigures();
-        ImaginaryRectangle area = new ImaginaryRectangle(start, end);
-        boolean ok = true;
-        for (Drawable figure : list){
-            for (Point point : figure.getPoints()) {
-                if (!area.containsPoint(point)){
-                    ok = false;
-                }
-            }
-            if (ok) addSelectedFigure(figure);
-            ok = true;
+        // Una sola figura
+        if (start.equals(end)) {
+            setTheSelectedFigure(start);
         }
-        return selectedFigures;
+        // Seleccion multiple
+        else {
+            ImaginaryRectangle area = new ImaginaryRectangle(start, end);
+            boolean ok = true;
+            for (Drawable figure : list) {
+                for (Point point : figure.getPoints()) {
+                    if (!area.containsPoint(point)) {
+                        ok = false;
+                    }
+                }
+                if (ok) addSelectedFigure(figure);
+                ok = true;
+            }
+        }
     }
 
-    public Drawable getTheSelectedFigure(Point point){
-        deselectAllFigures();
+    public void setTheSelectedFigure(Point point){
         for (Drawable figure : list){
             if (figure.containsPoint(point)) {
                 addSelectedFigure(figure);
-                return figure;
             }
         }
-        return null;
     }
+
+    public List<Drawable> getSelectedFigures(){
+        return new ArrayList<>(selectedFigures);
+    }
+
+    public Drawable getTheSelectedFigure(){
+        return selectedFigures.getFirst();
+    }
+
+
 
     public boolean hasSelectedFigures(){
         return !selectedFigures.isEmpty();
@@ -90,12 +100,6 @@ public class CanvasState {
 
     public boolean containsSelectedFigure(Drawable figure) {
         return selectedFigures.contains(figure);
-    }
-
-    public void setBorderWidth(double width) {
-        for(Drawable figure: selectedFigures) {
-            figure.setBorderWidth(width);
-        }
     }
 
     public void moveToFront() {

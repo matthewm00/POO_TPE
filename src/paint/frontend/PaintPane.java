@@ -144,40 +144,26 @@ public class PaintPane extends BorderPane {
 				return;
 			}
 			Drawable newFigure;
-			if (!selectionButton.isSelected()) {
-				try {
-					clickedFigureButton = (FigureButton) tools.getSelectedToggle();
-					if (clickedFigureButton != null) {
-						newFigure = clickedFigureButton.createFigure(startPoint, endPoint, fillColorPicker.getValue(), borderColorPicker.getValue(), borderWidthSlider.getValue());
-						newFigure.draw(gc);
-						canvasState.addFigure(newFigure);
-					}
+			if (!selectionButton.isSelected() && !deleteButton.isSelected() && !backButton.isSelected() && !frontButton.isSelected()) {
+				clickedFigureButton = (FigureButton) tools.getSelectedToggle();
+				if (clickedFigureButton != null) {
+					newFigure = clickedFigureButton.createFigure(startPoint, endPoint, fillColorPicker.getValue(), borderColorPicker.getValue(), borderWidthSlider.getValue());
+//					newFigure.draw(gc);
+					canvasState.addFigure(newFigure);
 					clickedFigureButton = null;
-				}catch (Exception e){
-					statusPane.updateStatus(e.getMessage()); // tira el error para delete, front y back
 				}
 			}
 			else if(selectionButton.isSelected()) {
 				// en el boton "Seleccionar"
 				StringBuilder description = new StringBuilder("Se seleccionó: ");
-				if (startPoint.equals(endPoint)) { // una sola figura
-					Drawable figure = canvasState.getTheSelectedFigure(startPoint);
-					if (figure != null) {
-						description.append(figure.toString());
-					}
-				} else{ // seleccion multiple
-					Set<Drawable> selectedFigures = canvasState.getSelectedFigures(startPoint, endPoint);
-					for (Drawable figure : selectedFigures) {
-						description.append(figure);
-						description.append(", ");
-					}
-					description.deleteCharAt(description.length() - 2);
+				canvasState.setSelectedFigures(startPoint, endPoint);
+
+				if(canvasState.hasSelectedFigures()){
+					canvasState.getSelectedFigures().forEach(figure -> description.append(figure).append(" "));
+					statusPane.updateStatus(description.toString());
 				}
-
-				if(!canvasState.hasSelectedFigures())
-					description = new StringBuilder("Ninguna figura encontrada");
-
-				statusPane.updateStatus(description.toString());
+				else
+					statusPane.updateStatus("Ninguna figura encontrada");
 			}
 			startPoint = null;
 			redrawCanvas();
@@ -201,26 +187,28 @@ public class PaintPane extends BorderPane {
 			}
 		});
 
-/*		canvas.setOnMouseClicked(event -> {
+		canvas.setOnMouseClicked(event -> {
 			if(selectionButton.isSelected()) {
 				Point eventPoint = new Point(event.getX(), event.getY());
 				StringBuilder label = new StringBuilder("Se seleccionó: ");
-				if (findFigure(eventPoint, label)){
+				canvasState.setTheSelectedFigure(eventPoint);
+				if (canvasState.hasSelectedFigures()){
+					label.append(canvasState.getTheSelectedFigure());
 					statusPane.updateStatus(label.toString());
 				} else {
-					selectedFigure = null;
 					statusPane.updateStatus("Ninguna figura encontrada");
 				}
 				redrawCanvas();
 			}
-		});*/
+		});
 
 		canvas.setOnMouseDragged(event -> {
-			if(selectionButton.isSelected() && selectedFigure != null) { //canvasState.hasSelectedFigures()
+			if(selectionButton.isSelected() && canvasState.hasSelectedFigures()) { // && selectedFigure != null
 				Point eventPoint = new Point(event.getX(), event.getY());
 				double diffX = (eventPoint.getX() - startPoint.getX());
 				double diffY = (eventPoint.getY() - startPoint.getY());
-				selectedFigure.move(diffX, diffY); //canvasState.moveSelectedFigures(diffX,diffY);
+//				selectedFigure.move(diffX, diffY);
+				canvasState.moveSelectedFigures(diffX, diffY);
 				startPoint = eventPoint;
 				redrawCanvas();
 			}
@@ -235,7 +223,7 @@ public class PaintPane extends BorderPane {
 			if(canvasState.containsSelectedFigure(figure)) {
 				gc.setStroke(SELECTED_COLOR);
 			} else {
-				gc.setStroke(DEFAULT_BORDER_COLOR);
+				gc.setStroke(figure.getBorderColor());
 			}
 			gc.setLineWidth(figure.getBorderWidth());
 			if(figure.isFillable()) {
