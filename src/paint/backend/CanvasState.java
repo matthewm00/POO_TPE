@@ -57,18 +57,11 @@ public class CanvasState {
             setTheSelectedFigure(start);
         }
         // Seleccion multiple
-        else {
-            if (Double.compare(start.getX(), end.getX()) > 0 || Double.compare(start.getY(), end.getY()) > 0)
-                return;
+        else if (Double.compare(start.getX(), end.getX()) < 0 && Double.compare(start.getY(), end.getY()) < 0){
             for (Drawable figure : list) {
-                boolean ok = true;
-                Iterator<Point> points = figure.getPoints().iterator();
-                while (points.hasNext() && ok) {
-                    if (!InsideImaginaryRectangle(start, end, points.next())) {
-                        ok = false;
-                    }
+                if (InsideImaginaryRectangle(start, end, figure.getPoints())) {
+                    addSelectedFigure(figure);
                 }
-                if (ok) addSelectedFigure(figure);
             }
         }
     }
@@ -97,7 +90,7 @@ public class CanvasState {
         return !selectedFigures.isEmpty();
     }
 
-    private void deselectAllFigures(){
+    public void deselectAllFigures(){
         selectedFigures.clear();
     }
 
@@ -118,8 +111,17 @@ public class CanvasState {
     }
 
 
-    private boolean InsideImaginaryRectangle(Point topLeft, Point bottomRight, Point evalPoint) {
-        return evalPoint.getX() >= topLeft.getX() && evalPoint.getX() <= bottomRight.getX() &&
-                    evalPoint.getY() >= topLeft.getY() && evalPoint.getY() <= bottomRight.getY();
+//    private boolean InsideImaginaryRectangle(Point topLeft, Point bottomRight, Point evalPoint) {
+//        return evalPoint.getX() >= topLeft.getX() && evalPoint.getX() <= bottomRight.getX() &&
+//                    evalPoint.getY() >= topLeft.getY() && evalPoint.getY() <= bottomRight.getY();
+//    }
+
+    private boolean InsideImaginaryRectangle(Point topLeft, Point bottomRight, Collection<Point> figurePoints) {
+        for (Point point : figurePoints){
+            if (!(point.getX() >= topLeft.getX() && point.getX() <= bottomRight.getX() && point.getY() >= topLeft.getY() && point.getY() <= bottomRight.getY())){
+                return false;
+            }
+        }
+        return true;
     }
 }
