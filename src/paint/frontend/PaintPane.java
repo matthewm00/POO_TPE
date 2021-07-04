@@ -160,6 +160,7 @@ public class PaintPane extends BorderPane {
 				}
 			}
 			else if(selectionButton.isSelected()) {
+				canvasState.deselectAllFigures();
 				if (!event.isStillSincePress()) {
 					// en el boton "Seleccionar"
 					StringBuilder description = new StringBuilder("Se seleccionó: ");
@@ -201,6 +202,7 @@ public class PaintPane extends BorderPane {
 					label.append(canvasState.getTheSelectedFigure());
 					statusPane.updateStatus(label.toString());
 				} else {
+					canvasState.deselectAllFigures();
 					statusPane.updateStatus("Ninguna figura encontrada");
 				}
 				redrawCanvas();
