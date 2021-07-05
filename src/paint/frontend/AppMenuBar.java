@@ -27,8 +27,8 @@ public class AppMenuBar extends MenuBar {
         aboutMenuItem.setOnAction(event -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Acerca De");
-            alert.setHeaderText("Paint");
-            alert.setContentText("TPE Final POO Julio 2021");
+            alert.setHeaderText("Paint - TPE Final POO Julio 2021");
+            alert.setContentText("Grupo\nSantiago Larroude Alvarez - Leg\nMateo Menghini - Leg\nMalena Vasquez Currie - 60072\n");
             alert.showAndWait();
         });
         help.getItems().add(aboutMenuItem);
