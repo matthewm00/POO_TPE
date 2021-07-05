@@ -8,7 +8,7 @@ import java.util.*;
 public class CanvasState {
 
     private final LinkedList<Drawable> list = new LinkedList<>();
-    private final Set<Drawable> selectedFigures = new HashSet<>();
+    private final LinkedList<Drawable> selectedFigures = new LinkedList<>();
 
     public void addFigure(Drawable figure) {
         list.add(figure);
@@ -82,7 +82,7 @@ public class CanvasState {
     }
 
     public Drawable getTheSelectedFigure(){
-        return list.getFirst();
+        return selectedFigures.getFirst();
     }
 
     public boolean hasSelectedFigures(){
