@@ -52,7 +52,7 @@ public class CanvasState {
 
     public void setSelectedFigures(Point start, Point end){
         deselectAllFigures();
-        // Una sola figura
+        // Seleccion unica
         if (start.equals(end)) {
             setTheSelectedFigure(start);
         }
@@ -73,7 +73,6 @@ public class CanvasState {
             if (figure.containsPoint(point)) {
                 addSelectedFigure(figure);
                 return;
-//                selecciona la figura que esta mas arriba
             }
         }
     }
@@ -109,12 +108,6 @@ public class CanvasState {
         for (Drawable figure : selectedFigures)
             list.addFirst(figure);
     }
-
-
-//    private boolean InsideImaginaryRectangle(Point topLeft, Point bottomRight, Point evalPoint) {
-//        return evalPoint.getX() >= topLeft.getX() && evalPoint.getX() <= bottomRight.getX() &&
-//                    evalPoint.getY() >= topLeft.getY() && evalPoint.getY() <= bottomRight.getY();
-//    }
 
     private boolean InsideImaginaryRectangle(Point topLeft, Point bottomRight, Collection<Point> figurePoints) {
         for (Point point : figurePoints){

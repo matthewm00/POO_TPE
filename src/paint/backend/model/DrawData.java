@@ -5,7 +5,6 @@ import javafx.scene.paint.Color;
 
 public class DrawData {
 
-    private static final Color SELECTION_STROKE_COLOR = Color.RED;
     private Color fillColor, borderColor;
     private double borderWidth;
 

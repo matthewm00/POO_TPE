@@ -15,8 +15,6 @@ import paint.backend.Drawable;
 import paint.backend.button.*;
 import paint.backend.model.Point;
 
-import java.util.Set;
-
 public class PaintPane extends BorderPane {
 
 	private static final Color DEFAULT_BORDER_COLOR = Color.BLACK;
@@ -144,18 +142,12 @@ public class PaintPane extends BorderPane {
 				Drawable newFigure;
 				clickedFigureButton = (FigureButton) tools.getSelectedToggle();
 				if (clickedFigureButton != null) {
-//					boolean error = false;
 					try{
 						newFigure = clickedFigureButton.createFigure(startPoint, endPoint, fillColorPicker.getValue(), borderColorPicker.getValue(), borderWidthSlider.getValue());
 						canvasState.addFigure(newFigure);
 					} catch (IllegalArgumentException e){
-//						error = true;
 						statusPane.updateStatus(e.getMessage());
-//						statusPane.setStyle("-fx-background-color: #FF0000");
 					}
-//					if (error){
-//						statusPane.setStyle("-fx-background-color: #4EBCF8");
-//					}
 					clickedFigureButton = null;
 				}
 			}

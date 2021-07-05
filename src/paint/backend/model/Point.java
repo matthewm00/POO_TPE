@@ -25,14 +25,6 @@ public class Point implements Comparable<Point>{
         return Math.abs(getY() - point.getY());
     }
 
-    public void setX(double delta) {
-        movePoint(delta, 0);
-    }
-
-    public void setY(double delta) {
-        movePoint(0, delta);
-    }
-
     public void movePoint(double deltaX, double deltaY) {
         this.x += deltaX;
         this.y += deltaY;

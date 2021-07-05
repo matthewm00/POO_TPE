@@ -22,14 +22,6 @@ public class Line extends Figure{
         this.end = start.compareTo(end) <= 0 ? end : start ;
     }
 
-    public Point getStartPoint() {
-        return start;
-    }
-
-    public Point getEndPoint() {
-        return end;
-    }
-
     @Override
     public boolean containsPoint(Point p) {
         double intercept = start.getY() - gradient * start.getX();

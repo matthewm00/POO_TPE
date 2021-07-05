@@ -2,7 +2,6 @@ package paint.backend.button;
 
 import paint.backend.Drawable;
 import paint.backend.model.Circle;
-import paint.backend.model.Figure;
 import paint.backend.model.Point;
 import javafx.scene.paint.Color;
 
