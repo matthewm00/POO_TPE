@@ -23,6 +23,8 @@ public class Line extends Figure{
     }
 
     @Override
+    //Es matematicamente complejo calcular exactamente si un punto pertenece a una linea.
+    //Este metodo intenta detectarlo con la mayor precision posible.
     public boolean containsPoint(Point p) {
         double intercept = start.getY() - gradient * start.getX();
         double aux = p.getY() - intercept - gradient * p.getX();

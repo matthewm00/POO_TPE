@@ -2,6 +2,7 @@ package paint.backend.model;
 
 import javafx.scene.paint.Color;
 
+//Guarda y permite la modificion de todas las priopedades relacionadas a la personalizacion de figuras (borde, color, relleno)
 
 public class DrawData {
 

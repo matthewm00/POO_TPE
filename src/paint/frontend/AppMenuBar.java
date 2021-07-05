@@ -28,7 +28,7 @@ public class AppMenuBar extends MenuBar {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Acerca De");
             alert.setHeaderText("Paint - TPE Final POO Julio 2021");
-            alert.setContentText("Grupo\nSantiago Larroude Alvarez - Leg\nMateo Menghini - Leg\nMalena Vasquez Currie - 60072\n");
+            alert.setContentText("Grupo\nMalena Vásquez Currie - 60072\nMateo Menghini - 60090\nSantiago Andrés Larroudé Alvarez - 60460");
             alert.showAndWait();
         });
         help.getItems().add(aboutMenuItem);
@@ -36,3 +36,4 @@ public class AppMenuBar extends MenuBar {
     }
 
 }
+

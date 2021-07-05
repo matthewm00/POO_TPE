@@ -5,6 +5,8 @@ import javafx.scene.paint.Color;
 import paint.backend.model.DrawData;
 import paint.backend.model.Model;
 
+//Comportamiento especificamente relacionado al "dibujo" de una figura en el canvas
+
 public interface Drawable extends Model {
 
     DrawData getDrawData();

@@ -7,7 +7,9 @@ import java.util.*;
 
 public class CanvasState {
 
+    //Colleccion con las figuras en el canvas donde las nuevas figuras se sobreponen a las antiguas
     private final LinkedList<Drawable> list = new LinkedList<>();
+    //Colleccion con las figuras actualmente seleccionadas
     private final LinkedList<Drawable> selectedFigures = new LinkedList<>();
 
     public void addFigure(Drawable figure) {
@@ -22,6 +24,7 @@ public class CanvasState {
         return new LinkedList<>(list);
     }
 
+    //Remueve de la lista de todas las figuras, las actualmente seleccionadas
     public void removeSelectedFigures(){
         list.removeAll(selectedFigures);
     }
@@ -38,26 +41,21 @@ public class CanvasState {
     }
 
     public void setSelectedBorderColor(Color color){
-        selectedFigures.forEach(figure -> {
-            figure.setBorderColor(color);
-        });
+        selectedFigures.forEach(figure -> figure.setBorderColor(color));
     }
 
     public void setSelectedBorderWidth(double width){
-        selectedFigures.forEach(figure -> {
-            figure.setBorderWidth(width);
-        });
+        selectedFigures.forEach(figure -> figure.setBorderWidth(width));
     }
 
-
+    //Guarda en la lista selectedFigures las nuevas figuras seleccionas
     public void setSelectedFigures(Point start, Point end){
-        deselectAllFigures();
         // Seleccion unica
         if (start.equals(end)) {
             setTheSelectedFigure(start);
         }
         // Seleccion multiple
-        else if (Double.compare(start.getX(), end.getX()) < 0 && Double.compare(start.getY(), end.getY()) < 0){
+        else if (start.compareTo(end) < 0){
             for (Drawable figure : list) {
                 if (InsideImaginaryRectangle(start, end, figure.getPoints())) {
                     addSelectedFigure(figure);
@@ -66,6 +64,7 @@ public class CanvasState {
         }
     }
 
+    //Guarda la figura seleccionada con un click
     public void setTheSelectedFigure(Point point){
         Iterator<Drawable> it = list.descendingIterator();
         while (it.hasNext()){
@@ -80,6 +79,7 @@ public class CanvasState {
     public List<Drawable> getSelectedFigures(){
         return new ArrayList<>(selectedFigures);
     }
+
 
     public Drawable getTheSelectedFigure(){
         return selectedFigures.getFirst();
@@ -97,18 +97,21 @@ public class CanvasState {
         return selectedFigures.contains(figure);
     }
 
+    //Remueve las figuras seleccionadas de la lista general para luego agregarlas adelante en el canvas
     public void moveToFront() {
         removeSelectedFigures();
         for (Drawable figure : selectedFigures)
-            list.addLast(figure); // para invertir el orden de la coleccion
+            list.addLast(figure);
     }
 
+    //Remueve las figuras seleccionadas de la lista general para luego agregarlas atras en el canvas
     public void moveToBack() {
         removeSelectedFigures();
         for (Drawable figure : selectedFigures)
             list.addFirst(figure);
     }
 
+    //Verifica que los puntos de una figura esten contenidos en el rectangulo imaginario creado
     private boolean InsideImaginaryRectangle(Point topLeft, Point bottomRight, Collection<Point> figurePoints) {
         for (Point point : figurePoints){
             if (!(point.getX() >= topLeft.getX() && point.getX() <= bottomRight.getX() && point.getY() >= topLeft.getY() && point.getY() <= bottomRight.getY())){
@@ -118,3 +121,4 @@ public class CanvasState {
         return true;
     }
 }
+

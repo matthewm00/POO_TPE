@@ -33,7 +33,6 @@ public class PaintPane extends BorderPane {
 
 	// Botones Barra Izquierda
 	private final ToggleButton selectionButton = new ToggleButton("Seleccionar");
-
 	private final FigureButton rectangleButton = new RectangleButton("Rectángulo");
 	private final FigureButton circleButton = new CircleButton("Círculo");
 	private final FigureButton ellipseButton = new EllipseButton("Elipse");
@@ -138,6 +137,7 @@ public class PaintPane extends BorderPane {
 			if (startPoint == null) {
 				return;
 			}
+			canvasState.deselectAllFigures();
 			if (!selectionButton.isSelected() && !deleteButton.isSelected() && !backButton.isSelected() && !frontButton.isSelected()) {
 				Drawable newFigure;
 				clickedFigureButton = (FigureButton) tools.getSelectedToggle();
@@ -152,7 +152,6 @@ public class PaintPane extends BorderPane {
 				}
 			}
 			else if(selectionButton.isSelected()) {
-				canvasState.deselectAllFigures();
 				if (!event.isStillSincePress()) {
 					// en el boton "Seleccionar"
 					StringBuilder description = new StringBuilder("Se seleccionó: ");
@@ -168,6 +167,7 @@ public class PaintPane extends BorderPane {
 			redrawCanvas();
 		});
 
+		//Despliega informacion de las figuras mientras el cursor pasa sobre ellas
 		canvas.setOnMouseMoved(event -> {
 			Point eventPoint = new Point(event.getX(), event.getY());
 			StringBuilder label = new StringBuilder();
@@ -194,6 +194,7 @@ public class PaintPane extends BorderPane {
 					label.append(canvasState.getTheSelectedFigure());
 					statusPane.updateStatus(label.toString());
 				} else {
+					//si se cliquea un punto en blanco del canvas, se deselecciona la/s figura/s actualmente seleccionada/s
 					canvasState.deselectAllFigures();
 					statusPane.updateStatus("Ninguna figura encontrada");
 				}

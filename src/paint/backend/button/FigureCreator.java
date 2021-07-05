@@ -6,6 +6,6 @@ import paint.backend.model.Point;
 import javafx.scene.paint.Color;
 
 @FunctionalInterface
-public interface CreateFigure {
+public interface FigureCreator {
     Drawable createFigure(Point start, Point end, Color fillColor, Color borderColor, double borderWidth);
 }

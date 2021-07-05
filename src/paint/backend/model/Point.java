@@ -41,10 +41,11 @@ public class Point implements Comparable<Point>{
 
     @Override
     public int compareTo(Point o) {
-        int comp = Double.compare( getX(), o.getX());
+        int comp = Double.compare(getX(), o.getX());
         if (comp == 0){
-            comp = Double.compare( getY(), o.getY());
+            return Double.compare(getY(), o.getY());
         }
         return comp;
     }
+
 }

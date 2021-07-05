@@ -9,11 +9,13 @@ public abstract class Figure implements Drawable {
 
     protected Point start, end;
     protected DrawData drawData;
-
+    protected final int figureID;
+    private static int idCount = 0;
 
     public Figure(Point start, Point end, Color fillColor, Color borderColor, double borderWidth) {
         initPoints(start, end);
         this.drawData = new DrawData(fillColor, borderColor, borderWidth);
+        this.figureID = generateID();
     }
 
     protected void initPoints(Point start, Point end){
@@ -37,16 +39,20 @@ public abstract class Figure implements Drawable {
         if (this == o) return true;
         if (!(o instanceof Figure)) return false;
         Figure figure = (Figure) o;
-        return this.getPoints().equals(figure.getPoints());
+        return figureID == figure.figureID;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPoints());
+        return Objects.hash(figureID);
     }
 
     @Override
     public DrawData getDrawData() {
         return drawData;
+    }
+
+    private int generateID() {
+        return idCount++;
     }
 }
