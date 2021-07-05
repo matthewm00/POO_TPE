@@ -50,6 +50,7 @@ public class CanvasState {
 
     //Guarda en la lista selectedFigures las nuevas figuras seleccionas
     public void setSelectedFigures(Point start, Point end){
+        if(hasSelectedFigures()) deselectAllFigures();
         // Seleccion unica
         if (start.equals(end)) {
             setTheSelectedFigure(start);
